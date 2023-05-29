@@ -1,54 +1,32 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/12 13:38:07 by fkrug             #+#    #+#              #
-#    Updated: 2023/05/25 17:02:25 by fkrug            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	:= FdF
+CFLAGS	:= -Wextra -Wall 
+#-Werror -Wunreachable-code -Ofast
+LIBMLX	:= ../MLX42
 
-NAME := fdf
+HEADERS	:= -I ./include -I $(LIBMLX)/include
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+SRCS	:= fdf.c
+#$(shell find ./src -iname "*.c")
+OBJS	:= ${SRCS:.c=.o}
 
-CC := cc
-CFLAGS := -Wall -Wextra -Werror
-LIBFT_DIR = Libft
-LIBFT = $(LIBFT_DIR)/libft.a
+all: libmlx $(NAME)
 
-SRC_PSWAP = 
-SRC_UTILS = fdf.c
-SRC = $(SRC_PSWAP) $(SRC_UTILS)
-OBJ := $(SRC:.c=.o)
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-#BON_NAME = 
-#BON_DIR = 
-#BON_SRC = 	
-#BON_FILE = $(addprefix $(BON_DIR),$(BON_SRC))
-#SRC_BON = $(BON_FILE) $(SRC_UTILS)
-#BON_OBJ := $(BON_FILE:.c=.o)
+%.o: %.c
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
-#all: $(LIBFT) $(NAME)
-all: $(NAME)
-
-$(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
-
-$(NAME): $(SRC)
-#	$(CC) $(CFLAGS) $(SRC) -L$(LIBFT_DIR) -lft -o $(NAME)
-
-bonus: $(BON_FILE)
-	$(CC) $(CFLAGS) $(SRC_BON) -L$(LIBFT_DIR) -lft -o $(BON_NAME)
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
-	/bin/rm -f $(OBJ)
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	@rm -f $(OBJS)
+	@rm -f $(LIBMLX)/build
 
 fclean: clean
-	/bin/rm -f $(NAME) $(BON_NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@rm -f $(NAME)
 
-re: fclean all clean
+re: clean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all, clean, fclean, re, libmlx
