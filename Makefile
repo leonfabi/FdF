@@ -1,11 +1,12 @@
 NAME	:= FdF
-CFLAGS	:= -Wextra -Wall 
+CFLAGS	:= 
+#-Wextra -Wall 
 #-Werror -Wunreachable-code -Ofast
 LIBMLX	:= ../MLX42
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= fdf.c
+SRCS	:= fdf.c ft_read_map.c
 #$(shell find ./src -iname "*.c")
 OBJS	:= ${SRCS:.c=.o}
 
