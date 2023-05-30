@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/30 16:30:56 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/30 17:08:31 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,18 @@ void	ft_draw_coordinate_sys(mlx_image_t *img)
 		mlx_put_pixel(img, x, 512, 0xFF0000FF);
 }
 
+void	ft_draw_map(mlx_image_t *img, t_mc *fdf)
+{
+	t_list	*tmp;
+
+	tmp = fdf->coord;
+	while (tmp)
+	{
+		mlx_put_pixel(img, 512, 512 + (-300) * ((t_point *) tmp->c)->z, 0xFF0000FF);
+		tmp = tmp->next;
+	}
+}
+
 void	ft_put_map(t_mc *fdf)
 {
 	t_list	*tmp;
@@ -90,7 +102,8 @@ int	main(void)
 	mlx_image_t* img = mlx_new_image(mlx, 1024, 1024);
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		ft_error();
-	ft_draw_coordinate_sys(img);
+	//ft_draw_coordinate_sys(img);
+	ft_draw_map(img, &fdf);
 	// Even after the image is being displayed, we can still modify the buffer.
 
 	// Register a hook and pass mlx as an optional param.
