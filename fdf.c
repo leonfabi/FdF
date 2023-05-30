@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/30 13:33:54 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/30 14:20:57 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ ft_read_map("./maps/test_maps/10-2.fdf");
 	//mlx_loop_hook(mlx, ft_hook, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	system("leaks FdF");
 	return (1);
 }
