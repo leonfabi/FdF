@@ -6,7 +6,7 @@
 #    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/14 16:35:57 by fkrug             #+#    #+#              #
-#    Updated: 2023/05/12 13:50:13 by fkrug            ###   ########.fr        #
+#    Updated: 2023/05/30 09:44:22 by fkrug            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME := libft.a
 CC := cc
 CFLAGS := -Wall -Wextra -Werror
 
+HEADERS	:= -I ./include
 VPATH = printf getnextline
 LIBFT :=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c	\
 			ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c	\
@@ -27,12 +28,15 @@ LIBFT :=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c
 			ft_lstiter.c ft_lstmap.c
 PRINTF =	ft_printf.c ft_printf_utils_chr.c ft_printf_utils_nbr.c
 GNL =		get_next_line.c get_next_line_utils.c
-SRC = $(LIBFT) $(PRINTF) $(GNL)
+SRC = $(LIBFT) $(addprefix printf/,$(PRINTF)) $(addprefix getnextline/,$(GNL))
 OBJ := $(SRC:.c=.o)
 
 all: $(NAME)
-$(NAME): $(SRC) $(OBJ)
-	@ar rcs $(NAME) $(OBJ)
+$(NAME): $(OBJ)
+	ar rcs $(NAME) $(OBJ)
+
+$(OBJ): %.o:%.c
+	$(CC) $(CFLAGS) -c $< $(HEADERS) -o $@
 
 clean:
 	@/bin/rm -f $(OBJ)

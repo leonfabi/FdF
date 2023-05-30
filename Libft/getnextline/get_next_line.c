@@ -6,11 +6,11 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:56:00 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/24 23:20:05 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/30 09:46:25 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 static char	*shift_stat_buffer(char *buffer, char *tmp_buf, ssize_t c)
 {

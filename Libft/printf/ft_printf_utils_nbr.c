@@ -6,11 +6,11 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:48:53 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/10 15:38:46 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/30 09:46:01 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 int	ft_putnbr_print(long n, int *print)
 {

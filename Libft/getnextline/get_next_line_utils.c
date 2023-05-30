@@ -6,11 +6,11 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:30:51 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/24 23:11:10 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/30 09:46:22 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 ssize_t	read_fd(int fd, char *tmp_buf, char *buffer)
 {

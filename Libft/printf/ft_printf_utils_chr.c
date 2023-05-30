@@ -6,11 +6,11 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:45:44 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/10 15:42:57 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/30 09:45:56 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 int	ft_putchar_print(char c, int *print)
 {

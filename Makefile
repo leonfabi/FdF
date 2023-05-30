@@ -1,8 +1,22 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/30 09:15:48 by fkrug             #+#    #+#              #
+#    Updated: 2023/05/30 09:16:31 by fkrug            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	:= FdF
 CFLAGS	:= 
 #-Wextra -Wall 
 #-Werror -Wunreachable-code -Ofast
 LIBMLX	:= ../MLX42
+LIBFT_DIR = Libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm

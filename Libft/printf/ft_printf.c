@@ -6,11 +6,11 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 16:11:01 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/10 15:38:40 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/30 09:46:06 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 int	ft_type(va_list ap, const char *string, int *print)
 {
