@@ -6,41 +6,58 @@
 #    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 09:15:48 by fkrug             #+#    #+#              #
-#    Updated: 2023/05/30 09:16:31 by fkrug            ###   ########.fr        #
+#    Updated: 2023/05/30 10:53:39 by fkrug            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= FdF
-CFLAGS	:= 
-#-Wextra -Wall 
-#-Werror -Wunreachable-code -Ofast
-LIBMLX	:= ../MLX42
+
+OPSYS := $(shell uname)
+ifeq ($(OPSYS), Linux)
+	CC := gcc
+	DB := gdb
+	CFLAGS ?= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+else ifeq ($(OPSYS), Darwin)
+	CC := cc
+	DB := lldb
+	CFLAGS ?= -Wunreachable-code -Ofast
+# -Wextra -Wall -Werror 
+	LIB_PATH := -L"$(shell brew --prefix glfw)/lib/"
+else
+	$(error $(OPSYS))
+endif
+LIBMLX	:= MLX42
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-HEADERS	:= -I ./include -I $(LIBMLX)/include
-LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= fdf.c ft_read_map.c
-#$(shell find ./src -iname "*.c")
+HEADERS	:= -I ./include -I $(LIBMLX)/include/MLX42 -I $(LIBFT_DIR)/include
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl $(LIB_PATH) -lglfw -pthread -lm \
+			$(LIBFT)
+SRCS	:= fdf.c fdf_read_map.c
 OBJS	:= ${SRCS:.c=.o}
 
-all: libmlx $(NAME)
+all: $(LIBFT) libmlx $(OBJS) $(NAME)
 
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
+$(OBJS): %.o:%.c
+	@$(CC) $(CFLAGS) -c $< $(HEADERS) -o $@ && printf "Compiling: $(notdir $<)\n"
+
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)
-	@rm -f $(LIBMLX)/build
+	@rm -r $(LIBMLX)/build
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 
 re: clean all
 
