@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/30 17:17:04 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/31 14:36:40 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	main(void)
 	fdf.coord = NULL;
 	fdf.x_len = 0;
 	ft_read_map(&fdf, "./maps/test_maps/10-2.fdf");
-
 	// MLX allows you to define its core behaviour before startup.
 	mlx_set_setting(MLX_DECORATED, true);
 	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);

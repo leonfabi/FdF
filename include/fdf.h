@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/30 15:24:53 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/31 15:58:01 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include "libft.h"
 # include <fcntl.h>
 # include <stdlib.h>
+# include <errno.h>
+# include <stdio.h>
+# include <string.h>
 
 typedef struct s_point{
 	int	x;
@@ -33,5 +36,6 @@ typedef struct s_map_coordinates{
 }	t_mc;
 
 t_mc	*ft_read_map(t_mc *fdf, const char *pathname);
+void	ft_free_2d(char **tmp);
 
 #endif

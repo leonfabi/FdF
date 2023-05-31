@@ -6,48 +6,39 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/30 16:30:05 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/31 16:04:33 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_free_2d(char **tmp)
+int	ft_error_handler(char *str, int error)
 {
-	int	count;
-
-	count = 0;
-	if (tmp != NULL)
-	{
-		while (tmp[count])
-			free(tmp[count++]);
-		free(tmp);
-	}
+	ft_printf("Error %s: %s\n", str, strerror(error));
+	return (-1);
 }
-
 
 int	ft_check_map(char *map)
 {
 	int	i;
-	int	error;
 
 	i = 0;
-	error = 0;
 	while (map[i])
 	{
 		if ((map[i] == '+' || map[i] == '-'))
 		{
 			if (!ft_isdigit(map[i + 1]))
-				error = 1;
+				return (ft_error_handler("Input map sign", 42));
 		}
 		else if (!ft_isdigit(map[i]) && map[i] != ' ' && map[i] != '\n')
-			error = 1;
+			return (ft_error_handler("Input map contains non-digits", 42));
 		i++;
 	}
 	if (map[i - 1] == '\n')
 		map[i - 1] = '\0';
-	return (error);
+	return (0);
 }
+
 t_point *ft_point_alloc(int x_pos, int y_pos, int z_pos)
 {
 	t_point	*start;
@@ -100,6 +91,11 @@ t_mc	*ft_read_map(t_mc *fdf, const char *pathname)
 	int		y_pos;
 
 	fd = open(pathname, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error opening file");
+		return (NULL);
+	}
 	map = get_next_line(fd);
 	tmp = NULL;
 	y_pos = 0;
