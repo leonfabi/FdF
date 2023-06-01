@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/31 14:36:40 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/31 17:07:53 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,29 +91,29 @@ int	main(void)
 	fdf.x_len = 0;
 	ft_read_map(&fdf, "./maps/test_maps/10-2.fdf");
 	// MLX allows you to define its core behaviour before startup.
-	mlx_set_setting(MLX_DECORATED, true);
-	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
-	if (!mlx)
-		ft_error();
+	// mlx_set_setting(MLX_DECORATED, true);
+	// mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
+	// if (!mlx)
+	// 	ft_error();
 
 	/* Do stuff */
 
 	// Create and display the image.
-	mlx_image_t* img = mlx_new_image(mlx, 1024, 1024);
-	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-		ft_error();
+	// mlx_image_t* img = mlx_new_image(mlx, 1024, 1024);
+	// if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+	// 	ft_error();
 	//ft_draw_coordinate_sys(img);
-	ft_draw_map(img, &fdf);
+	// ft_draw_map(img, &fdf);
 	// Even after the image is being displayed, we can still modify the buffer.
 
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!
-	mlx_key_hook(mlx, &my_keyhook, NULL);
+	// mlx_key_hook(mlx, &my_keyhook, NULL);
 	//mlx_loop_hook(mlx, ft_hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	// mlx_loop(mlx);
+	// mlx_terminate(mlx);
 	ft_put_map(&fdf);
 	ft_lstclear(&fdf.coord, &free);
-	system("leaks FdF");
+	//system("leaks FdF");
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/31 16:04:33 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/05/31 17:11:11 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,16 @@ int	ft_check_map(char *map)
 		if ((map[i] == '+' || map[i] == '-'))
 		{
 			if (!ft_isdigit(map[i + 1]))
+			{
+				free(map);
 				return (ft_error_handler("Input map sign", 42));
+			}
 		}
 		else if (!ft_isdigit(map[i]) && map[i] != ' ' && map[i] != '\n')
+		{
+			free(map);
 			return (ft_error_handler("Input map contains non-digits", 42));
+		}
 		i++;
 	}
 	if (map[i - 1] == '\n')
@@ -87,7 +93,6 @@ t_mc	*ft_read_map(t_mc *fdf, const char *pathname)
 	int		fd;
 	char	*map;
 	char	**tmp;
-	int		error;
 	int		y_pos;
 
 	fd = open(pathname, O_RDONLY);
@@ -99,16 +104,13 @@ t_mc	*ft_read_map(t_mc *fdf, const char *pathname)
 	map = get_next_line(fd);
 	tmp = NULL;
 	y_pos = 0;
-	error = 0;
-	while (map && !error)
+	while (map)
 	{
 		ft_printf("Map: %s\n", map);
-		error = ft_check_map(map);
-		if (!error)
-		{
-			tmp = ft_split(map, ' ');
-			ft_fill_map_content(tmp, fdf, y_pos);
-		}
+		if (ft_check_map(map) == -1)
+			return (NULL);
+		tmp = ft_split(map, ' ');
+		ft_fill_map_content(tmp, fdf, y_pos);
 		ft_free_2d(tmp);
 		free(map);
 		map = get_next_line(fd);
