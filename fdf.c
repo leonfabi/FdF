@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/05/31 17:07:53 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/01 19:49:07 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ int	main(void)
 	fdf.x_len = 0;
 	ft_read_map(&fdf, "./maps/test_maps/10-2.fdf");
 	// MLX allows you to define its core behaviour before startup.
-	// mlx_set_setting(MLX_DECORATED, true);
-	// mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
+	mlx_set_setting(MLX_DECORATED, true);
+	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
 	// if (!mlx)
 	// 	ft_error();
 
@@ -111,7 +111,8 @@ int	main(void)
 	// mlx_key_hook(mlx, &my_keyhook, NULL);
 	//mlx_loop_hook(mlx, ft_hook, mlx);
 	// mlx_loop(mlx);
-	// mlx_terminate(mlx);
+	mlx_close_window(mlx);
+	mlx_terminate(mlx);
 	ft_put_map(&fdf);
 	ft_lstclear(&fdf.coord, &free);
 	//system("leaks FdF");

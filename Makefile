@@ -6,7 +6,7 @@
 #    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 09:15:48 by fkrug             #+#    #+#              #
-#    Updated: 2023/05/31 16:26:30 by fkrug            ###   ########.fr        #
+#    Updated: 2023/06/01 19:34:54 by fkrug            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 HEADERS	:= -I ./include -I $(LIBMLX)/include/MLX42 -I $(LIBFT_DIR)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl $(LIB_PATH) -lglfw -pthread -lm \
 			$(LIBFT)
-SRCS	:= fdf.c fdf_read_map.c fdf_utils_1.c
+SRCS	:= fdf.c fdf_read_map.c fdf_utils_1.c fdf_draw_utils_1.c
 OBJS	:= ${SRCS:.c=.o}
 
 all: $(LIBFT) libmlx $(OBJS) $(NAME)
