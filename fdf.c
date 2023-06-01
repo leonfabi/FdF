@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/01 19:49:07 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/01 20:20:26 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,10 @@ int	main(void)
 	/* Do stuff */
 
 	// Create and display the image.
-	// mlx_image_t* img = mlx_new_image(mlx, 1024, 1024);
-	// if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-	// 	ft_error();
+	mlx_image_t* img = mlx_new_image(mlx, 10, 10);
+	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+		ft_error();
+	ft_draw_line(img, &fdf);
 	//ft_draw_coordinate_sys(img);
 	// ft_draw_map(img, &fdf);
 	// Even after the image is being displayed, we can still modify the buffer.
@@ -110,7 +111,7 @@ int	main(void)
 	// NOTE: Do this before calling mlx_loop!
 	// mlx_key_hook(mlx, &my_keyhook, NULL);
 	//mlx_loop_hook(mlx, ft_hook, mlx);
-	// mlx_loop(mlx);
+	mlx_loop(mlx);
 	mlx_close_window(mlx);
 	mlx_terminate(mlx);
 	ft_put_map(&fdf);

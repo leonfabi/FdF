@@ -6,9 +6,14 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/01 19:35:11 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/01 20:20:42 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	ft_draw_line(mlx_image_t *img, t_mc *fdf)
+{
+	mlx_put_pixel(img, 5, 5, 0xFF0000FF);
+	mlx_put_pixel(img, 7, 6, 0xFF0000FF);
+}
