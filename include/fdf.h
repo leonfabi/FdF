@@ -6,15 +6,15 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/01 20:20:13 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/02 09:16:24 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# define WIDTH 10
-# define HEIGHT 10
+# define WIDTH 1024
+# define HEIGHT 1024
 
 # include "MLX42.h"
 # include "libft.h"
@@ -33,6 +33,7 @@ typedef struct s_point{
 typedef struct s_map_coordinates{
 	t_list	*coord;
 	int		x_len;
+	int		y_len;
 }	t_mc;
 
 t_mc	*ft_read_map(t_mc *fdf, const char *pathname);
