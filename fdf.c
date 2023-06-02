@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/02 10:26:04 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/02 17:42:21 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_draw_map(mlx_image_t *img, t_mc *fdf)
 	tmp = fdf->coord;
 	while (tmp)
 	{
-		mlx_put_pixel(img, (100) * ((t_point *) tmp->c)->y,(100) * ((t_point *) tmp->c)->x, 0xFF0000FF);
+		mlx_put_pixel(img, (1) * ((t_point *) tmp->c)->y,(1) * ((t_point *) tmp->c)->x, 0xFF0000FF);
 		tmp = tmp->next;
 	}
 }
@@ -85,12 +85,15 @@ void	ft_put_map(t_mc *fdf)
 int	main(int argc, char **argv)
 {
 	t_mc	fdf;
+	t_list	*tmp;
 
 	fdf.coord = NULL;
 	fdf.x_len = 0;
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	ft_read_map(&fdf, ft_strjoin("./maps/test_maps/", argv[1]));
+	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
+	tmp = fdf.coord;
 	//ft_read_map(&fdf, "./maps/test_maps/100-6.fdf");
 	// MLX allows you to define its core behaviour before startup.
 	mlx_set_setting(MLX_DECORATED, true);
@@ -107,6 +110,12 @@ int	main(int argc, char **argv)
 	//ft_draw_line(img, &fdf);
 	//ft_draw_coordinate_sys(img);
 	ft_draw_map(img, &fdf);
+	ft_draw_grid(&fdf, img);
+	// while (tmp->next)
+	// {
+	// 	ft_draw_line(img, *(t_point *)tmp->c, *(t_point *)tmp->next->c);
+	// 	tmp = tmp->next;
+	// }
 	// Even after the image is being displayed, we can still modify the buffer.
 
 	// Register a hook and pass mlx as an optional param.
@@ -116,7 +125,7 @@ int	main(int argc, char **argv)
 	mlx_loop(mlx);
 	mlx_close_window(mlx);
 	mlx_terminate(mlx);
-	ft_put_map(&fdf);
+	//ft_put_map(&fdf);
 	ft_lstclear(&fdf.coord, &free);
 	//system("leaks FdF");
 	return (1);

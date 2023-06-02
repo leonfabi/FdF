@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/02 10:00:28 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/02 17:11:29 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ t_point *ft_point_alloc(int x_pos, int y_pos, int z_pos)
 	start = (t_point *)malloc(sizeof(t_point));
 	if (start == NULL)
 		return (NULL);
-	start->x = x_pos;
-	start->z = z_pos;
-	start->y = y_pos;
+	start->x = (100) * x_pos;
+	start->z = (100) * z_pos;
+	start->y = (100) * y_pos;
+	start->x_draw = (100) * x_pos;
+	start->y_draw = (100) * y_pos;
 	return (start);
 }
 
@@ -64,7 +66,7 @@ int	ft_fill_map_content(char *map, t_mc *fdf, int y_pos)
 	tmp = ft_split(map, ' ');
 	if (tmp != NULL && fdf != NULL)
 	{
-		fdf->y_len = y_pos;
+		fdf->y_len = (y_pos + 1);
 		while (tmp[count] && tmp[count][0] != '\n')
 		{
 			ft_lstadd_back(&(fdf->coord), ft_lstnew(ft_point_alloc(count, y_pos, ft_atoi(tmp[count]))));
