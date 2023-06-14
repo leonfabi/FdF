@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/02 17:42:21 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/14 13:22:59 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_draw_map(mlx_image_t *img, t_mc *fdf)
 	tmp = fdf->coord;
 	while (tmp)
 	{
-		mlx_put_pixel(img, (1) * ((t_point *) tmp->c)->y,(1) * ((t_point *) tmp->c)->x, 0xFF0000FF);
+		mlx_put_pixel(img, (1) * ((t_point *) tmp->c)->x,(1) * ((t_point *) tmp->c)->y, 0xFF0000FF);
 		tmp = tmp->next;
 	}
 }

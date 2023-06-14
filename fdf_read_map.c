@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/02 17:11:29 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/14 13:20:03 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ t_point *ft_point_alloc(int x_pos, int y_pos, int z_pos)
 	start->x = (100) * x_pos;
 	start->z = (100) * z_pos;
 	start->y = (100) * y_pos;
-	start->x_draw = (100) * x_pos;
-	start->y_draw = (100) * y_pos;
+	start->x_draw = 0;//(100) * (x_pos - z_pos) / sqrt(2);
+	start->y_draw = 0;//(100) * (2 * y_pos + x_pos + z_pos) / sqrt(6);
 	return (start);
 }
 
