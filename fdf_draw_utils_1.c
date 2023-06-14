@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/14 11:23:16 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/14 13:26:35 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 		//ft_printf("Koordinaten: x: %d, Endbedingung: %d\n", ((t_point *)tmp->c)->x, fdf->x_len - 1);
 		if (((t_point *)tmp->c)->x/100 < fdf->x_len - 1)
 			ft_draw_line(img, *(t_point *)tmp->c, *(t_point *)tmp->next->c);
-		if (((t_point *)tmp->c)->y/100 < fdf->y_len - 1)
-			ft_draw_line(img, *(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len));
+		//if (((t_point *)tmp->c)->y/100 < fdf->y_len - 1)
+		//	ft_draw_line(img, *(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len));
 		tmp = tmp->next;
 	}
 }
