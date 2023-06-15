@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/14 13:20:03 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/15 16:23:31 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	ft_check_map(char *map)
 			return (ft_error_handler("Input map contains non-digits", 5, map));
 		i++;
 	}
-	// if (map[i - 1] == '\n')
-	// 	map[i - 1] = '\0';
 	return (0);
 }
 
@@ -48,11 +46,11 @@ t_point *ft_point_alloc(int x_pos, int y_pos, int z_pos)
 	start = (t_point *)malloc(sizeof(t_point));
 	if (start == NULL)
 		return (NULL);
-	start->x = (100) * x_pos;
-	start->z = (100) * z_pos;
-	start->y = (100) * y_pos;
-	start->x_draw = 0;//(100) * (x_pos - z_pos) / sqrt(2);
-	start->y_draw = 0;//(100) * (2 * y_pos + x_pos + z_pos) / sqrt(6);
+	start->x = SCALING * x_pos;
+	start->z = SCALING * z_pos;
+	start->y = SCALING * y_pos;
+	start->x_draw = round(SCALING * (x_pos - z_pos) / sqrt(2));
+	start->y_draw = round(SCALING * (2 * y_pos + x_pos + z_pos) / sqrt(6));
 	return (start);
 }
 

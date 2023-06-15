@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/14 13:18:55 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/15 16:23:55 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define WIDTH 1024
 # define HEIGHT 1024
+# define SCALING 50
 
 # include "MLX42.h"
 # include "libft.h"
@@ -26,11 +27,11 @@
 # include <math.h>
 
 typedef struct s_point{
-	int	x;
-	int	y;
-	int	z;
-	int	x_draw;
-	int	y_draw;
+	double	x;
+	double	y;
+	double	z;
+	double	x_draw;
+	double	y_draw;
 }	t_point;
 
 typedef struct s_map_coordinates{
