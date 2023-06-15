@@ -6,7 +6,7 @@
 #    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 09:15:48 by fkrug             #+#    #+#              #
-#    Updated: 2023/06/01 19:34:54 by fkrug            ###   ########.fr        #
+#    Updated: 2023/06/15 13:35:49 by fkrug            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ endif
 LIBMLX	:= MLX42
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
 HEADERS	:= -I ./include -I $(LIBMLX)/include/MLX42 -I $(LIBFT_DIR)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl $(LIB_PATH) -lglfw -pthread -lm \
 			$(LIBFT)
@@ -41,6 +40,9 @@ OBJS	:= ${SRCS:.c=.o}
 all: $(LIBFT) libmlx $(OBJS) $(NAME)
 
 libmlx:
+	@if [ ! -d "./$(LIBMLX)" ]; then \
+		git clone https://github.com/codam-coding-college/MLX42.git; \
+	fi
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 $(OBJS): %.o:%.c
@@ -54,7 +56,9 @@ $(NAME): $(OBJS)
 
 clean:
 	@rm -f $(OBJS)
-	@rm -r $(LIBMLX)/build
+	@if [ -d "$(LIBMLX)/build" ]; then \
+		rm -r $(LIBMLX)/build; \
+	fi
 	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
