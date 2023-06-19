@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 15:50:39 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 16:25:37 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,6 @@ void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 			ft_draw_line(img, *(t_point *)tmp->c, *(t_point *)tmp->next->c, fdf);
 		if (((t_point *)tmp->c)->y < fdf->y_len - 1)
 			ft_draw_line(img, *(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len), fdf);
-		tmp = tmp->next;
-	}
-}
-
-void	ft_parse_to_isometric(t_mc *fdf)
-{
-	t_list	*tmp;
-
-	tmp = fdf->coord;
-	while (tmp)
-	{
-		
 		tmp = tmp->next;
 	}
 }

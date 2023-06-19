@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 16:00:56 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 16:27:10 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	ft_move_hook(void *param)
 	t_mc *fdf;
 
 	fdf = param;
-	printf("y_trans: %f, x_trans: %f\n", fdf->y_trans, fdf->x_trans);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(fdf->mlx);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_W))
@@ -131,9 +130,7 @@ int	main(int argc, char **argv)
 	fdf.img = mlx_new_image(fdf.mlx, HEIGHT, WIDTH);
 	if (!fdf.img || (mlx_image_to_window(fdf.mlx, fdf.img, 0, 0) < 0))
 		ft_error();
-	//ft_draw_line(img, &fdf);
-	//ft_draw_coordinate_sys(img);
-	ft_draw_map(fdf.img, &fdf);
+	//ft_draw_map(fdf.img, &fdf);
 	ft_draw_grid(&fdf, fdf.img);
 	// while (tmp->next)
 	// {
