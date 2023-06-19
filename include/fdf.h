@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 16:22:43 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 16:31:00 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ typedef struct s_map_coordinates{
 	mlx_t		*mlx;	
 	double	x_trans;
 	double	y_trans;
+	int		x_rot;
+	int		y_rot;
+	int		z_rot;
 }	t_mc;
 
 t_mc	*ft_read_map(t_mc *fdf, const char *pathname);

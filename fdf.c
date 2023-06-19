@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 16:27:10 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 17:03:22 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@ static void ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-static void ft_hook(void* param)
-{
-	const mlx_t* mlx = param;
-
-	printf("WIDTH: %d | HEIGHT: %d\n", mlx->width, mlx->height);
-}
 
 void	ft_close_window(mlx_t *mlx, mlx_image_t *img)
 {
@@ -32,7 +26,31 @@ void	ft_close_window(mlx_t *mlx, mlx_image_t *img)
 		mlx_close_window(mlx);
 		//mlx_terminate(mlx);
 }
+void	ft_rotate_hook(void *param)
+{
+	t_mc	*fdf;
+	t_list	*tmp;
+	double	x_old;
+	double	y_old;
+	double	alpha;
 
+	fdf = param;
+	tmp = fdf->coord;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_B)) //Z Axis rotation
+	{
+		fdf->z_rot += 1;
+		alpha = M_PI / 180 * fdf->z_rot;
+		while (tmp)
+		{
+			x_old = SCALING * ((t_point *)tmp->c)->x;
+			y_old = SCALING * ((t_point *)tmp->c)->y;
+			((t_point *)tmp->c)->x_draw = round(cos(alpha) * x_old + sin(alpha) * y_old);
+			((t_point *)tmp->c)->y_draw = round(cos(alpha) * y_old - sin(alpha) * x_old);
+			tmp = tmp->next;
+		}
+		ft_draw_grid(fdf, fdf->img);
+	}
+}
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
 	t_mc *fdf;
@@ -49,7 +67,6 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 		fdf->img->instances[0].y = 0;
 		fdf->img->instances[0].x = 0;
 	}
-		
 }
 
 void	ft_move_hook(void *param)
@@ -79,6 +96,12 @@ void	ft_move_hook(void *param)
 		fdf->x_trans += 5;
 		ft_draw_grid(fdf, fdf->img);
 	}
+}
+
+static void ft_hook(void* param)
+{
+	ft_move_hook(param);
+	ft_rotate_hook(param);
 }
 
 void	ft_draw_map(mlx_image_t *img, t_mc *fdf)
@@ -117,6 +140,9 @@ int	main(int argc, char **argv)
 	fdf.x_len = 0;
 	fdf.x_trans = 0;
 	fdf.y_trans = 0;
+	fdf.x_rot = 0;
+	fdf.y_rot = 0;
+	fdf.z_rot = 0;
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	ft_read_map(&fdf, argv[1]);//ft_strjoin("./maps/test_maps/", argv[1]));
@@ -142,7 +168,7 @@ int	main(int argc, char **argv)
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!
 	mlx_key_hook(fdf.mlx, &my_keyhook, &fdf);
-	mlx_loop_hook(fdf.mlx, ft_move_hook, &fdf);
+	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
 	mlx_loop(fdf.mlx);
 	mlx_close_window(fdf.mlx);
 	mlx_terminate(fdf.mlx);

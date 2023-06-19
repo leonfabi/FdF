@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 15:32:13 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 16:43:15 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ t_point *ft_point_alloc(int x_pos, int y_pos, int z_pos)
 	start->x = x_pos;
 	start->z = z_pos;
 	start->y = y_pos;
-	start->x_draw = round(cos(M_PI / 6) * SCALING * start->x + sin(M_PI / 6) * SCALING * start->y);//round(SCALING * (x_pos - z_pos) / sqrt(2));
-	start->y_draw = round(cos(M_PI / 6) * SCALING * start->y - sin(M_PI / 6) * SCALING * start->x);//round(SCALING * (2 * y_pos + x_pos + z_pos) / sqrt(6));
+	start->x_draw = SCALING * start->x;//round(cos(M_PI / 6) * SCALING * start->x + sin(M_PI / 6) * SCALING * start->y);//round(SCALING * (x_pos - z_pos) / sqrt(2));
+	start->y_draw = SCALING * start->y;//round(cos(M_PI / 6) * SCALING * start->y - sin(M_PI / 6) * SCALING * start->x);//round(SCALING * (2 * y_pos + x_pos + z_pos) / sqrt(6));
 	return (start);
 }
 
