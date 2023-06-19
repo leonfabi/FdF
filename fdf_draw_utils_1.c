@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 16:25:37 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 17:04:24 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 
 	tmp = fdf->coord;
 	tmp_row = tmp;
-	ft_printf("Dimensions: x: %d, y: %d\n", fdf->x_len, fdf->y_len);
+	//ft_printf("Dimensions: x: %d, y: %d\n", fdf->x_len, fdf->y_len);
 	ft_bzero(img->pixels, WIDTH * HEIGHT * 4);
 	while (tmp->next)
 	{

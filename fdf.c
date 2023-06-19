@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 17:03:22 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 17:13:05 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,38 @@ void	ft_rotate_hook(void *param)
 	t_list	*tmp;
 	double	x_old;
 	double	y_old;
+	double	z_old;
 	double	alpha;
+	double	beta;
+	double	gamma;
 
 	fdf = param;
 	tmp = fdf->coord;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_B)) //Z Axis rotation
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Z)) //Z Axis rotation
 	{
-		fdf->z_rot += 1;
-		alpha = M_PI / 180 * fdf->z_rot;
+		//fdf->z_rot += 1;
+		alpha = M_PI / 180;//M_PI / 180 * fdf->z_rot;
+		while (tmp)
+		{
+			x_old = ((t_point *)tmp->c)->x_draw;
+			y_old = ((t_point *)tmp->c)->y_draw;
+			((t_point *)tmp->c)->x_draw = round(cos(alpha) * x_old + sin(alpha) * y_old);
+			((t_point *)tmp->c)->y_draw = round(cos(alpha) * y_old - sin(alpha) * x_old);
+			tmp = tmp->next;
+		}
+		ft_draw_grid(fdf, fdf->img);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Y)) //Y Axis rotation
+	{
+		fdf->y_rot += 1;
+		alpha = M_PI / 180 * fdf->y_rot;
 		while (tmp)
 		{
 			x_old = SCALING * ((t_point *)tmp->c)->x;
 			y_old = SCALING * ((t_point *)tmp->c)->y;
-			((t_point *)tmp->c)->x_draw = round(cos(alpha) * x_old + sin(alpha) * y_old);
-			((t_point *)tmp->c)->y_draw = round(cos(alpha) * y_old - sin(alpha) * x_old);
+			y_old = SCALING * ((t_point *)tmp->c)->z;
+			((t_point *)tmp->c)->x_draw = round(cos(alpha) * x_old - sin(alpha) * z_old);
+			((t_point *)tmp->c)->y_draw = round(y_old);
 			tmp = tmp->next;
 		}
 		ft_draw_grid(fdf, fdf->img);
