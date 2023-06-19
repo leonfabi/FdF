@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/16 13:19:57 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 13:16:07 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,32 @@ void	ft_close_window(mlx_t *mlx, mlx_image_t *img)
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
-	t_mc *fdf = param;
+	t_mc *fdf;
+	
+	fdf = param;
 
 	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
 	{
 		ft_printf("ESC pressed\n");
 		ft_close_window(fdf->mlx, fdf->img);
 	}
+}
+
+void	ft_move_hook(void *param)
+{
+	t_mc *fdf;
+
+	fdf = param;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(fdf->mlx);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_W))
+		fdf->img->instances[0].y -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
+		fdf->img->instances[0].y += 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_A))
+		fdf->img->instances[0].x -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_D))
+		fdf->img->instances[0].x += 5;
 }
 
 void	ft_draw_coordinate_sys(mlx_image_t *img)
@@ -96,17 +115,11 @@ int	main(int argc, char **argv)
 	ft_read_map(&fdf, argv[1]);//ft_strjoin("./maps/test_maps/", argv[1]));
 	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
 	tmp = fdf.coord;
-	// MLX allows you to define its core behaviour before startup.
 	mlx_set_setting(MLX_DECORATED, true);
-	// mlx_t* mlx
 	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
-	// if (!mlx)
-	// 	ft_error();
-
-	/* Do stuff */
-
+	if (!fdf.mlx)
+		ft_error();
 	// Create and display the image.
-	// mlx_image_t* img 
 	fdf.img = mlx_new_image(fdf.mlx, HEIGHT, WIDTH);
 	if (!fdf.img || (mlx_image_to_window(fdf.mlx, fdf.img, 0, 0) < 0))
 		ft_error();
@@ -124,7 +137,7 @@ int	main(int argc, char **argv)
 	// Register a hook and pass mlx as an optional param.
 	// NOTE: Do this before calling mlx_loop!
 	mlx_key_hook(fdf.mlx, &my_keyhook, &fdf);
-	//mlx_loop_hook(mlx, ft_hook, mlx);
+	mlx_loop_hook(fdf.mlx, ft_move_hook, &fdf);
 	mlx_loop(fdf.mlx);
 	mlx_close_window(fdf.mlx);
 	mlx_terminate(fdf.mlx);
