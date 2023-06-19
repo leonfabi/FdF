@@ -6,15 +6,15 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/16 10:40:34 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 15:51:09 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# define WIDTH 1024
-# define HEIGHT 1024
+# define WIDTH 1920
+# define HEIGHT 1080
 # define SCALING 50
 
 # include "MLX42.h"
@@ -27,11 +27,11 @@
 # include <math.h>
 
 typedef struct s_point{
-	double	x;
-	double	y;
-	double	z;
-	double	x_draw;
-	double	y_draw;
+	double			x;
+	double			y;
+	double			z;
+	double			x_draw;
+	double			y_draw;
 }	t_point;
 
 typedef struct s_map_coordinates{
@@ -40,11 +40,13 @@ typedef struct s_map_coordinates{
 	int			y_len;
 	mlx_image_t	*img;
 	mlx_t		*mlx;	
+	double	x_trans;
+	double	y_trans;
 }	t_mc;
 
 t_mc	*ft_read_map(t_mc *fdf, const char *pathname);
 void	ft_free_2d(char **tmp);
-void	ft_draw_line(mlx_image_t *img, t_point point0, t_point point1);
+void	ft_draw_line(mlx_image_t *img, t_point point0, t_point point1, t_mc *fdf);
 void	ft_draw_grid(t_mc *fdf, mlx_image_t *img);
 
 #endif

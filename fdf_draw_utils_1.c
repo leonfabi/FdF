@@ -6,13 +6,13 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/15 16:19:30 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 15:50:39 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_draw_line(mlx_image_t *img, t_point point0, t_point point1)
+void	ft_draw_line(mlx_image_t *img, t_point point0, t_point point1, t_mc *fdf)
 {
 	int	dx;
 	int	dy;
@@ -28,9 +28,9 @@ void	ft_draw_line(mlx_image_t *img, t_point point0, t_point point1)
 	err = dx + dy;
 	while (1)
 	{
-		if (point1.x_draw >= 0 && point0.x_draw >= 0 && point1.y_draw >= 0 && point0.y_draw >= 0)
+		if (point1.x_draw + fdf->x_trans >= 0 && point0.x_draw + fdf->x_trans >= 0 && point1.y_draw + fdf->y_trans >= 0 && point0.y_draw + fdf->y_trans >= 0)
 		{
-			mlx_put_pixel(img, point0.x_draw, point0.y_draw, 0xFF0000FF);
+			mlx_put_pixel(img, point0.x_draw + fdf->x_trans, point0.y_draw+ fdf->y_trans, 0xFF0000FF);
 		}
 		if (point0.x_draw == point1.x_draw && point0.y_draw == point1.y_draw) break;
 		e2 = 2 * err;
@@ -54,13 +54,14 @@ void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 	tmp = fdf->coord;
 	tmp_row = tmp;
 	ft_printf("Dimensions: x: %d, y: %d\n", fdf->x_len, fdf->y_len);
+	ft_bzero(img->pixels, WIDTH * HEIGHT * 4);
 	while (tmp->next)
 	{
 		//ft_printf("Koordinaten: x: %d, Endbedingung: %d\n", ((t_point *)tmp->c)->x, fdf->x_len - 1);
-		if (((t_point *)tmp->c)->x/SCALING < fdf->x_len - 1)
-			ft_draw_line(img, *(t_point *)tmp->c, *(t_point *)tmp->next->c);
-		if (((t_point *)tmp->c)->y/SCALING < fdf->y_len - 1)
-			ft_draw_line(img, *(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len));
+		if (((t_point *)tmp->c)->x < fdf->x_len - 1)
+			ft_draw_line(img, *(t_point *)tmp->c, *(t_point *)tmp->next->c, fdf);
+		if (((t_point *)tmp->c)->y < fdf->y_len - 1)
+			ft_draw_line(img, *(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len), fdf);
 		tmp = tmp->next;
 	}
 }

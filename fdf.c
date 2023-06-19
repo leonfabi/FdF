@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 13:16:07 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/19 16:00:56 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 		ft_printf("ESC pressed\n");
 		ft_close_window(fdf->mlx, fdf->img);
 	}
+	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
+	{
+		fdf->img->instances[0].y = 0;
+		fdf->img->instances[0].x = 0;
+	}
+		
 }
 
 void	ft_move_hook(void *param)
@@ -51,29 +57,29 @@ void	ft_move_hook(void *param)
 	t_mc *fdf;
 
 	fdf = param;
+	printf("y_trans: %f, x_trans: %f\n", fdf->y_trans, fdf->x_trans);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(fdf->mlx);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_W))
-		fdf->img->instances[0].y -= 5;
+	{
+		fdf->y_trans -= 5;
+		ft_draw_grid(fdf, fdf->img);
+	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
-		fdf->img->instances[0].y += 5;
+	{
+		fdf->y_trans += 5;
+		ft_draw_grid(fdf, fdf->img);
+	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_A))
-		fdf->img->instances[0].x -= 5;
+	{
+		fdf->x_trans -= 5;
+		ft_draw_grid(fdf, fdf->img);
+	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_D))
-		fdf->img->instances[0].x += 5;
-}
-
-void	ft_draw_coordinate_sys(mlx_image_t *img)
-{
-	int	y;
-	int	x;
-
-	y = 512;
-	x = 512;
-	while(y++ < 1000)
-		mlx_put_pixel(img, 512, y, 0x00FF00FF);
-	while(x++ < 1000)
-		mlx_put_pixel(img, x, 512, 0xFF0000FF);
+	{
+		fdf->x_trans += 5;
+		ft_draw_grid(fdf, fdf->img);
+	}
 }
 
 void	ft_draw_map(mlx_image_t *img, t_mc *fdf)
@@ -110,13 +116,15 @@ int	main(int argc, char **argv)
 
 	fdf.coord = NULL;
 	fdf.x_len = 0;
+	fdf.x_trans = 0;
+	fdf.y_trans = 0;
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	ft_read_map(&fdf, argv[1]);//ft_strjoin("./maps/test_maps/", argv[1]));
 	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
 	tmp = fdf.coord;
 	mlx_set_setting(MLX_DECORATED, true);
-	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", true);
+	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
 	if (!fdf.mlx)
 		ft_error();
 	// Create and display the image.
