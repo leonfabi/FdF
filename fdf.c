@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/20 15:42:59 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/20 17:54:00 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,45 +34,51 @@ void	ft_rotate_hook(void *param)
 	double	y_old;
 	double	z_old;
 	double	alpha;
-	double	beta;
-	double	gamma;
 
 	fdf = param;
+	alpha = M_PI / 180 * 1;
 	tmp = fdf->coord;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Z)) //Z Axis rotation
 	{
-		fdf->z_rot += 1;
-		gamma = M_PI / 180 * fdf->z_rot;
-		// while (tmp)
-		// {
-		// 	x_old = SCALING * ((t_point *)tmp->c)->x;
-		// 	y_old = SCALING * ((t_point *)tmp->c)->y;
-		// 	((t_point *)tmp->c)->x_draw = round(cos(gamma) * x_old + sin(gamma) * y_old);
-		// 	((t_point *)tmp->c)->y_draw = round(cos(gamma) * y_old - sin(gamma) * x_old);
-		// 	tmp = tmp->next;
-		// }
-		//ft_draw_grid(fdf, fdf->img);
+		while (tmp)
+		{
+			x_old = ((t_point *)tmp->c)->x_proj;
+			y_old = ((t_point *)tmp->c)->y_proj;
+			((t_point *)tmp->c)->x_proj = cos(alpha) * x_old + sin(alpha) * y_old;
+			((t_point *)tmp->c)->y_proj = cos(alpha) * y_old - sin(alpha) * x_old;
+			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
+			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
+			tmp = tmp->next;
+		}
+		ft_draw_grid(fdf, fdf->img);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Y)) //Y Axis rotation
 	{
-		fdf->y_rot += 1;
-		beta = M_PI / 180 * fdf->y_rot;
+		while (tmp)
+		{
+			z_old = ((t_point *)tmp->c)->z_proj;
+			x_old = ((t_point *)tmp->c)->x_proj;
+			((t_point *)tmp->c)->z_proj = cos(alpha) * z_old + sin(alpha) * x_old;
+			((t_point *)tmp->c)->x_proj = cos(alpha) * x_old - sin(alpha) * z_old;
+			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
+			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
+			tmp = tmp->next;
+		}
+		ft_draw_grid(fdf, fdf->img);
 	}
-	// while (tmp)
-	// {
-	// 	x_old = SCALING * ((t_point *)tmp->c)->x;
-	// 	y_old = SCALING * ((t_point *)tmp->c)->y;
-	// 	y_old = SCALING * ((t_point *)tmp->c)->z;
-	// 	x_old = round(cos(gamma) * x_old + sin(gamma) * y_old);
-	// 	y_old = round(cos(gamma) * y_old - sin(gamma) * x_old);
-	// 	((t_point *)tmp->c)->x_draw = round(cos(beta) * x_old - sin(beta) * z_old);
-	// 	((t_point *)tmp->c)->y_draw = round(y_old);
-	// 	tmp = tmp->next;
-	// }
-	//ft_draw_grid(fdf, fdf->img);
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_T))
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_X)) //Y Axis rotation
 	{
-		ft_to_isometric(fdf);
+		while (tmp)
+		{
+			z_old = ((t_point *)tmp->c)->z_proj;
+			y_old = ((t_point *)tmp->c)->y_proj;
+			((t_point *)tmp->c)->z_proj = cos(alpha) * z_old - sin(alpha) * y_old;
+			((t_point *)tmp->c)->y_proj = cos(alpha) * y_old + sin(alpha) * z_old;
+			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
+			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
+			tmp = tmp->next;
+		}
+		ft_draw_grid(fdf, fdf->img);
 	}
 }
 void my_keyhook(mlx_key_data_t keydata, void* param)
@@ -88,8 +94,10 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	}
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
 	{
-		fdf->img->instances[0].y = 0;
-		fdf->img->instances[0].x = 0;
+		fdf->y_rot = 0;
+		fdf->x_rot = 0;
+		fdf->z_rot = 0;
+		ft_to_isometric(fdf);
 	}
 }
 
@@ -163,7 +171,7 @@ int	main(int argc, char **argv)
 	fdf.coord = NULL;
 	fdf.x_len = 0;
 	fdf.x_trans = 0;
-	fdf.y_trans = 0;
+	fdf.y_trans = HEIGHT / 2;
 	fdf.x_rot = 0;
 	fdf.y_rot = 0;
 	fdf.z_rot = 0;
@@ -177,10 +185,10 @@ int	main(int argc, char **argv)
 	if (!fdf.mlx)
 		ft_error();
 	// Create and display the image.
-	fdf.img = mlx_new_image(fdf.mlx, HEIGHT, WIDTH);
+	fdf.img = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
 	if (!fdf.img || (mlx_image_to_window(fdf.mlx, fdf.img, 0, 0) < 0))
 		ft_error();
-	//ft_draw_map(fdf.img, &fdf);
+	ft_to_isometric(&fdf);
 	ft_draw_grid(&fdf, fdf.img);
 	// while (tmp->next)
 	// {
