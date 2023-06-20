@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/20 15:44:59 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/20 16:15:37 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,24 @@ void	ft_to_isometric(t_mc *fdf)
 	double	x_old;
 	double	y_old;
 	double	z_old;
+	double	gamma;
+	double	alpha;
 
 	tmp = fdf->coord;
+	alpha = M_PI / 180 * -30;
+	gamma = -M_PI / 4;
 	while (tmp)
 	{
-		x_old = ((t_point *)tmp->c)->x;
-		y_old = ((t_point *)tmp->c)->y;
-		y_old = ((t_point *)tmp->c)->z;
-		((t_point *)tmp->c)->x = round(cos(M_PI / 4) * x_old + sin(M_PI / 4) * y_old);
-		((t_point *)tmp->c)->y = round(cos(M_PI / 4) * y_old - sin(M_PI / 4) * x_old);
-		//((t_point *)tmp->c)->x_draw = SCALING * ((t_point *)tmp->c)->x;
-		//((t_point *)tmp->c)->y_draw = SCALING * ((t_point *)tmp->c)->y;
+		x_old = SCALING * ((t_point *)tmp->c)->x;
+		y_old = SCALING * ((t_point *)tmp->c)->y;
+		z_old = SCALING / 2 * ((t_point *)tmp->c)->z;
+		((t_point *)tmp->c)->x_proj = round(cos(gamma) * x_old + sin(gamma) * y_old);
+		y_old = round(cos(gamma) * y_old - sin(gamma) * x_old);
+		((t_point *)tmp->c)->y_proj = round(cos(alpha) * y_old + sin(alpha) * z_old);
+		((t_point *)tmp->c)->z_proj = round(cos(alpha) * z_old - sin(alpha) * y_old);
+		((t_point *)tmp->c)->x_draw = ((t_point *)tmp->c)->x_proj;
+		((t_point *)tmp->c)->y_draw = ((t_point *)tmp->c)->y_proj;
 		tmp = tmp->next;
 	}
-	//ft_draw_grid(fdf, fdf->img);
+	ft_draw_grid(fdf, fdf->img);
 }
