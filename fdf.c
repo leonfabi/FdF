@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/20 17:54:00 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/20 18:40:23 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,14 +170,15 @@ int	main(int argc, char **argv)
 
 	fdf.coord = NULL;
 	fdf.x_len = 0;
-	fdf.x_trans = 0;
+	fdf.x_trans = WIDTH / 2;
 	fdf.y_trans = HEIGHT / 2;
 	fdf.x_rot = 0;
 	fdf.y_rot = 0;
 	fdf.z_rot = 0;
 	if (argc != 2)
 		return (EXIT_FAILURE);
-	ft_read_map(&fdf, argv[1]);//ft_strjoin("./maps/test_maps/", argv[1]));
+	if (ft_read_map(&fdf, argv[1]) == -1)
+		return (EXIT_FAILURE);
 	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
 	tmp = fdf.coord;
 	mlx_set_setting(MLX_DECORATED, true);
@@ -190,15 +191,6 @@ int	main(int argc, char **argv)
 		ft_error();
 	ft_to_isometric(&fdf);
 	ft_draw_grid(&fdf, fdf.img);
-	// while (tmp->next)
-	// {
-	// 	ft_draw_line(img, *(t_point *)tmp->c, *(t_point *)tmp->next->c);
-	// 	tmp = tmp->next;
-	// }
-	// Even after the image is being displayed, we can still modify the buffer.
-
-	// Register a hook and pass mlx as an optional param.
-	// NOTE: Do this before calling mlx_loop!
 	mlx_key_hook(fdf.mlx, &my_keyhook, &fdf);
 	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
 	mlx_loop(fdf.mlx);

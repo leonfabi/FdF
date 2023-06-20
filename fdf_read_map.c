@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/20 15:48:56 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/20 18:57:11 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_fill_map_content(char *map, t_mc *fdf, int y_pos)
 }
 
 
-t_mc	*ft_read_map(t_mc *fdf, const char *pathname)
+int	ft_read_map(t_mc *fdf, const char *pathname)
 {
 	int		fd;
 	char	*map;
@@ -97,20 +97,21 @@ t_mc	*ft_read_map(t_mc *fdf, const char *pathname)
 	if (fd == -1)
 	{
 		perror("Error opening file");
-		return (NULL);
+		return (-1);
 	}
 	map = get_next_line(fd);
 	y_pos = 0;
 	while (map)
 	{
 		ft_printf("Map: %s\n", map);
-		if (ft_check_map(map) == -1)
-			return (NULL);
+		// if (ft_check_map(map) == -1)
+		// 	return (-1);
 		if (ft_fill_map_content(map, fdf, y_pos) == -1)
-			return (NULL);
+			return (-1);
 		free(map);
 		map = get_next_line(fd);
 		y_pos++;
 	}
 	free(map);
+	return (1);
 }
