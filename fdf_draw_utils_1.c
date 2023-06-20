@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/19 17:04:24 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/20 15:44:59 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_point	*ft_next_y(t_list	*content, int	x_len)
 		content = content->next;
 	return (content->c);
 }
+
 void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 {
 	t_list	*tmp;
@@ -64,4 +65,26 @@ void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 			ft_draw_line(img, *(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len), fdf);
 		tmp = tmp->next;
 	}
+}
+
+void	ft_to_isometric(t_mc *fdf)
+{
+	t_list	*tmp;
+	double	x_old;
+	double	y_old;
+	double	z_old;
+
+	tmp = fdf->coord;
+	while (tmp)
+	{
+		x_old = ((t_point *)tmp->c)->x;
+		y_old = ((t_point *)tmp->c)->y;
+		y_old = ((t_point *)tmp->c)->z;
+		((t_point *)tmp->c)->x = round(cos(M_PI / 4) * x_old + sin(M_PI / 4) * y_old);
+		((t_point *)tmp->c)->y = round(cos(M_PI / 4) * y_old - sin(M_PI / 4) * x_old);
+		//((t_point *)tmp->c)->x_draw = SCALING * ((t_point *)tmp->c)->x;
+		//((t_point *)tmp->c)->y_draw = SCALING * ((t_point *)tmp->c)->y;
+		tmp = tmp->next;
+	}
+	//ft_draw_grid(fdf, fdf->img);
 }
