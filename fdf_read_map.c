@@ -6,40 +6,24 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/20 18:57:11 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/21 12:56:50 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_error_handler(char *str, int error, void *tmp)
+int	ft_error_handler(char *str, int error, void *tmp, char **tmp2d)
 {
-	ft_printf("Error %s: %s\n", str, strerror(error));
+	if (str != NULL)
+		ft_printf("Error %s: %s\n", str, strerror(error));
 	if (tmp != NULL)
 		free(tmp);
+	if (tmp2d != NULL)
+		ft_free_2d(tmp2d);
 	return (-1);
 }
 
-int	ft_check_map(char *map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		if ((map[i] == '+' || map[i] == '-'))
-		{
-			if (!ft_isdigit(map[i + 1]))
-				return (ft_error_handler("Input map sign", 5, map));
-		}
-		else if (!ft_isdigit(map[i]) && map[i] != ' ' && map[i] != '\n')
-			return (ft_error_handler("Input map contains non-digits", 5, map));
-		i++;
-	}
-	return (0);
-}
-
-t_point *ft_point_alloc(int x_pos, int y_pos, int z_pos)
+t_point	*ft_point_alloc(int x_pos, int y_pos, int z_pos)
 {
 	t_point	*start;
 
@@ -52,8 +36,8 @@ t_point *ft_point_alloc(int x_pos, int y_pos, int z_pos)
 	start->x_proj = x_pos;
 	start->z_proj = z_pos;
 	start->y_proj = y_pos;
-	start->x_draw = SCALING * start->x;//round(cos(M_PI / 6) * SCALING * start->x + sin(M_PI / 6) * SCALING * start->y);//round(SCALING * (x_pos - z_pos) / sqrt(2));
-	start->y_draw = SCALING * start->y;//round(cos(M_PI / 6) * SCALING * start->y - sin(M_PI / 6) * SCALING * start->x);//round(SCALING * (2 * y_pos + x_pos + z_pos) / sqrt(6));
+	start->x_draw = SCALING * start->x;
+	start->y_draw = SCALING * start->y;
 	return (start);
 }
 
@@ -70,22 +54,20 @@ int	ft_fill_map_content(char *map, t_mc *fdf, int y_pos)
 		fdf->y_len = (y_pos + 1);
 		while (tmp[count] && tmp[count][0] != '\n')
 		{
-			ft_lstadd_back(&(fdf->coord), ft_lstnew(ft_point_alloc(count, y_pos, ft_atoi(tmp[count]))));
+			ft_lstadd_back(&(fdf->coord), \
+			ft_lstnew(ft_point_alloc(count, y_pos, ft_atoi(tmp[count]))));
 			count++;
 		}
 		if (call == 0)
 			fdf->x_len = count;
 		else if (count != fdf->x_len)
-		{
-			ft_free_2d(tmp);
-			return (ft_error_handler("Input map has wrong format", 5, map));
-		}
+			return (ft_error_handler("Input map has wrong format", \
+			5, map, tmp));
 	}
 	ft_free_2d(tmp);
 	call++;
 	return (0);
 }
-
 
 int	ft_read_map(t_mc *fdf, const char *pathname)
 {
@@ -103,9 +85,6 @@ int	ft_read_map(t_mc *fdf, const char *pathname)
 	y_pos = 0;
 	while (map)
 	{
-		ft_printf("Map: %s\n", map);
-		// if (ft_check_map(map) == -1)
-		// 	return (-1);
 		if (ft_fill_map_content(map, fdf, y_pos) == -1)
 			return (-1);
 		free(map);

@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 11:25:50 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/21 12:55:22 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,10 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	if (ft_read_map(&fdf, argv[1]) == -1)
+	{
+		ft_lstclear(&fdf.coord, &free);
 		return (EXIT_FAILURE);
+	}
 	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
 	tmp = fdf.coord;
 	mlx_set_setting(MLX_DECORATED, true);

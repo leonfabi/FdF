@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_utils_1.c                                      :+:      :+:    :+:   */
+/*   ft_no_submission.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/31 15:57:26 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 12:37:23 by fkrug            ###   ########.fr       */
+/*   Created: 2023/06/21 12:40:53 by fkrug             #+#    #+#             */
+/*   Updated: 2023/06/21 12:40:55 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-
-void	ft_free_2d(char **tmp)
+int	ft_check_map(char *map)
 {
-	int	count;
+	int	i;
 
-	count = 0;
-	if (tmp != NULL)
+	i = 0;
+	while (map[i])
 	{
-		while (tmp[count])
-			free(tmp[count++]);
-		free(tmp);
+		if ((map[i] == '+' || map[i] == '-'))
+		{
+			if (!ft_isdigit(map[i + 1]))
+				return (ft_error_handler("Input map sign", 5, map));
+		}
+		else if (!ft_isdigit(map[i]) && map[i] != ' ' && map[i] != '\n')
+			return (ft_error_handler("Input map contains non-digits", 5, map));
+		i++;
 	}
+	return (0);
 }
