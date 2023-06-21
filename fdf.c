@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 12:55:22 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/21 13:49:40 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,61 +26,7 @@ void	ft_close_window(mlx_t *mlx, mlx_image_t *img)
 		mlx_close_window(mlx);
 		//mlx_terminate(mlx);
 }
-void	ft_rotate_hook(void *param)
-{
-	t_mc	*fdf;
-	t_list	*tmp;
-	double	x_old;
-	double	y_old;
-	double	z_old;
-	double	alpha;
 
-	fdf = param;
-	alpha = M_PI / 180 * 1;
-	tmp = fdf->coord;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Z)) //Z Axis rotation
-	{
-		while (tmp)
-		{
-			x_old = ((t_point *)tmp->c)->x_proj;
-			y_old = ((t_point *)tmp->c)->y_proj;
-			((t_point *)tmp->c)->x_proj = cos(alpha) * x_old + sin(alpha) * y_old;
-			((t_point *)tmp->c)->y_proj = cos(alpha) * y_old - sin(alpha) * x_old;
-			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
-			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
-			tmp = tmp->next;
-		}
-		ft_draw_grid(fdf, fdf->img);
-	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Y)) //Y Axis rotation
-	{
-		while (tmp)
-		{
-			z_old = ((t_point *)tmp->c)->z_proj;
-			x_old = ((t_point *)tmp->c)->x_proj;
-			((t_point *)tmp->c)->z_proj = cos(alpha) * z_old + sin(alpha) * x_old;
-			((t_point *)tmp->c)->x_proj = cos(alpha) * x_old - sin(alpha) * z_old;
-			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
-			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
-			tmp = tmp->next;
-		}
-		ft_draw_grid(fdf, fdf->img);
-	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_X)) //Y Axis rotation
-	{
-		while (tmp)
-		{
-			z_old = ((t_point *)tmp->c)->z_proj;
-			y_old = ((t_point *)tmp->c)->y_proj;
-			((t_point *)tmp->c)->z_proj = cos(alpha) * z_old - sin(alpha) * y_old;
-			((t_point *)tmp->c)->y_proj = cos(alpha) * y_old + sin(alpha) * z_old;
-			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
-			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
-			tmp = tmp->next;
-		}
-		ft_draw_grid(fdf, fdf->img);
-	}
-}
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
 	t_mc *fdf;
