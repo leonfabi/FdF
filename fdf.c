@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/20 18:40:23 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/21 11:25:50 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 		fdf->y_rot = 0;
 		fdf->x_rot = 0;
 		fdf->z_rot = 0;
+		fdf->x_trans = WIDTH / 2;
+		fdf->y_trans = HEIGHT / 2;
+		fdf->zoom = 1;
 		ft_to_isometric(fdf);
 	}
 }
@@ -130,10 +133,34 @@ void	ft_move_hook(void *param)
 	}
 }
 
+void	ft_zoom_hook(void *param)
+{
+	t_mc	*fdf;
+	t_list	*tmp;
+
+	tmp = fdf->coord;
+	fdf = param;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_I))
+	{
+		fdf->zoom += 0.01;
+		while (tmp)
+		{
+			((t_point *)tmp->c)->z_proj = fdf->zoom * ((t_point *)tmp->c)->z_proj;
+			((t_point *)tmp->c)->y_proj = fdf->zoom * ((t_point *)tmp->c)->y_proj;
+			((t_point *)tmp->c)->x_proj = fdf->zoom * ((t_point *)tmp->c)->x_proj;
+			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
+			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
+			tmp = tmp->next;
+		}
+		ft_draw_grid(fdf, fdf->img);
+	}
+}
+
 static void ft_hook(void* param)
 {
 	ft_move_hook(param);
 	ft_rotate_hook(param);
+	//ft_zoom_hook(param);
 }
 
 void	ft_draw_map(mlx_image_t *img, t_mc *fdf)
@@ -175,6 +202,7 @@ int	main(int argc, char **argv)
 	fdf.x_rot = 0;
 	fdf.y_rot = 0;
 	fdf.z_rot = 0;
+	fdf.zoom = 1.0;
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	if (ft_read_map(&fdf, argv[1]) == -1)
