@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 15:57:26 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 12:37:23 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/21 14:03:39 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,10 @@ void	ft_free_2d(char **tmp)
 			free(tmp[count++]);
 		free(tmp);
 	}
+}
+
+void	ft_error(void)
+{
+	printf("%s", mlx_strerror(mlx_errno));
+	exit(EXIT_FAILURE);
 }
