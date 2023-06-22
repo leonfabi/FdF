@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 14:07:47 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/22 08:42:23 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 
 void	ft_close_window(mlx_t *mlx, mlx_image_t *img)
 {
-		mlx_delete_image(mlx, img);
-		mlx_close_window(mlx);
-		//mlx_terminate(mlx);
+	mlx_delete_image(mlx, img);
+	mlx_close_window(mlx);
+	//mlx_terminate(mlx);
 }
 
-void my_keyhook(mlx_key_data_t keydata, void* param)
+void	my_keyhook(mlx_key_data_t keydata, void *param)
 {
-	t_mc *fdf;
-	
-	fdf = param;
+	t_mc	*fdf;
 
+	fdf = param;
 	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
 	{
 		ft_printf("ESC pressed\n");
@@ -33,9 +32,6 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	}
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
 	{
-		fdf->y_rot = 0;
-		fdf->x_rot = 0;
-		fdf->z_rot = 0;
 		fdf->x_trans = WIDTH / 2;
 		fdf->y_trans = HEIGHT / 2;
 		fdf->zoom = 1;
@@ -43,7 +39,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	}
 }
 
-static void ft_hook(void* param)
+static void	ft_hook(void *param)
 {
 	ft_move_hook(param);
 	ft_rotate_hook(param);
@@ -57,11 +53,8 @@ int	main(int argc, char **argv)
 
 	fdf.coord = NULL;
 	fdf.x_len = 0;
-	fdf.x_trans = WIDTH / 2;
-	fdf.y_trans = HEIGHT / 2;
-	fdf.x_rot = 0;
-	fdf.y_rot = 0;
-	fdf.z_rot = 0;
+	fdf.x_trans = 0;//WIDTH / 2;
+	fdf.y_trans = 0;//HEIGHT / 2;
 	fdf.zoom = 1.0;
 	if (argc != 2)
 		return (EXIT_FAILURE);
@@ -79,7 +72,10 @@ int	main(int argc, char **argv)
 	// Create and display the image.
 	fdf.img = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
 	if (!fdf.img || (mlx_image_to_window(fdf.mlx, fdf.img, 0, 0) < 0))
+	{
 		ft_error();
+		return (EXIT_FAILURE);
+	}
 	ft_to_isometric(&fdf);
 	ft_draw_grid(&fdf, fdf.img);
 	mlx_key_hook(fdf.mlx, &my_keyhook, &fdf);

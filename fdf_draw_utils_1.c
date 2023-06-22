@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 12:35:45 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/22 08:41:54 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_draw_line(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 	err = dx + dy;
 	while (1)
 	{
-		if (p_0.x_draw + fdf->x_trans >= 0 && p_0.y_draw + fdf->y_trans >= 0)
+		if (p_0.x_draw + fdf->x_trans >= 0 && p_0.y_draw + fdf->y_trans >= 0 && p_0.x_draw + fdf->x_trans < WIDTH && p_0.y_draw + fdf->y_trans < HEIGHT)
 			mlx_put_pixel(img, p_0.x_draw + fdf->x_trans, p_0.y_draw + fdf->y_trans, 0xFF0000FF);
 		if (p_0.x_draw == p_1.x_draw && p_0.y_draw == p_1.y_draw) break;
 		e2 = 2 * err;
