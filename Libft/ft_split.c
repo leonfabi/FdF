@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkrug <fkrug@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 11:20:49 by fkrug             #+#    #+#             */
-/*   Updated: 2023/03/28 18:34:25 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/26 13:47:23 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	ft_sect_end(char const *s, char c, int old_start)
 	return (end);
 }
 
-static void	ft_free(char **arr, int c)
+static void	*ft_free(char **arr, int c)
 {
 	while (c > 1)
 	{
@@ -69,6 +69,7 @@ static void	ft_free(char **arr, int c)
 		c--;
 	}
 	free(arr);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
@@ -92,10 +93,8 @@ char	**ft_split(char const *s, char c)
 		end = ft_sect_end(s, c, start);
 		array[count] = ft_substr(s, start, end - start + 1);
 		if (!array[count++])
-		{
-			ft_free(array, count);
-			return (NULL);
-		}
+			return (ft_free(array, count));
 	}
+	array[len] = NULL;
 	return (array);
 }

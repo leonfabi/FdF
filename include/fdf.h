@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/22 08:57:12 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/26 13:22:20 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-# define SCALING 1
+# define SCALING 20
 
 # include "MLX42.h"
 # include "libft.h"
@@ -39,6 +39,8 @@ typedef struct s_point{
 
 typedef struct s_map_coordinates{
 	t_list		*coord;
+	t_list		*input;
+	t_point		**data;
 	int			x_len;
 	int			y_len;
 	mlx_image_t	*img;
@@ -50,6 +52,7 @@ typedef struct s_map_coordinates{
 
 int		ft_read_map(t_mc *fdf, const char *pathname);
 void	ft_free_2d(char **tmp);
+void	ft_free_data(t_point **tmp, int y_size);
 void	ft_draw_line(mlx_image_t *img, t_point point0, t_point point1, t_mc *fdf);
 void	ft_draw_grid(t_mc *fdf, mlx_image_t *img);
 void	ft_to_isometric(t_mc *fdf);

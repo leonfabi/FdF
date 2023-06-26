@@ -1,43 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_utils_1.c                                      :+:      :+:    :+:   */
+/*   fdf_read_map_update.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/31 15:57:26 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/26 13:13:18 by fkrug            ###   ########.fr       */
+/*   Created: 2023/06/22 15:56:33 by fkrug             #+#    #+#             */
+/*   Updated: 2023/06/26 11:33:24 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_free_2d(char **tmp)
-{
-	int	count;
-
-	count = 0;
-	if (tmp != NULL)
-	{
-		while (tmp[count])
-			free(tmp[count++]);
-		free(tmp);
-	}
-}
-
-void	ft_free_data(t_point **tmp, int y_size)
-{
-	while (y_size >= 0)
-	{
-		free(tmp[y_size]);
-		tmp[y_size] = 0;
-		y_size--;
-	}
-	free(tmp);
-}
-
-void	ft_error(void)
-{
-	printf("%s", mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
-}

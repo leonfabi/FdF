@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 12:56:50 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/22 16:14:05 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,16 @@ int	ft_fill_map_content(char *map, t_mc *fdf, int y_pos)
 	call++;
 	return (0);
 }
-
+#include <time.h>
 int	ft_read_map(t_mc *fdf, const char *pathname)
 {
 	int		fd;
 	char	*map;
 	int		y_pos;
+	clock_t start_time;
+	double elapsed_time;
+	clock_t end_time;
+	
 
 	fd = open(pathname, O_RDONLY);
 	if (fd == -1)
@@ -85,8 +89,16 @@ int	ft_read_map(t_mc *fdf, const char *pathname)
 	y_pos = 0;
 	while (map)
 	{
+		start_time = clock();
 		if (ft_fill_map_content(map, fdf, y_pos) == -1)
 			return (-1);
+		//##########################################################################
+		end_time = clock();
+		elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+		// Print the elapsed time
+		printf("Read and fill one line: %.6f seconds\n", elapsed_time);
+		//##########################################################################
 		free(map);
 		map = get_next_line(fd);
 		y_pos++;
