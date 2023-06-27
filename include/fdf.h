@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 16:12:25 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 16:50:51 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,13 @@ typedef struct s_map_coordinates{
 }	t_mc;
 
 int		ft_read_map(t_mc *fdf, const char *pathname);
+int		ft_fill_data(t_mc *fdf);
+int		ft_init(t_mc *fdf);
+int		ft_init_data(t_mc *fdf);
 void	ft_free_2d(char **tmp);
 void	ft_free_data(t_point **tmp, int y_size);
-void	ft_draw_line(mlx_image_t *img, t_point point0, t_point point1, t_mc *fdf);
+void	ft_draw_line(mlx_image_t *img, t_point point0, \
+		t_point point1, t_mc *fdf);
 void	ft_draw_grid(t_mc *fdf, mlx_image_t *img);
 void	ft_to_isometric(t_mc *fdf);
 void	ft_rotate_hook(void *param);

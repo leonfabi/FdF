@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 16:34:43 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 16:46:38 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_get_x_len(char *line)
 	return (count);
 }
 
-
 int	ft_read_map(t_mc *fdf, const char *pathname)
 {
 	int		fd;
@@ -58,5 +57,33 @@ int	ft_read_map(t_mc *fdf, const char *pathname)
 	}
 	close(fd);
 	free(map);
-	return(1);
+	return (1);
+}
+
+int	ft_fill_data(t_mc *fdf)
+{
+	int		x;
+	int		y;
+	char	**tmp;
+	t_list	*lst;
+
+	x = 0;
+	y = 0;
+	lst = fdf->input;
+	while (lst)
+	{
+		tmp = ft_split((char *)lst->c, ' ');
+		x = 0;
+		while (tmp[x] != NULL)
+		{
+			fdf->data[y][x].z = ft_atoi(tmp[x]);
+			fdf->data[y][x].y = y;
+			fdf->data[y][x].x = x;
+			x++;
+		}
+		ft_free_2d(tmp);
+		y++;
+		lst = lst->next;
+	}
+	return (1);
 }

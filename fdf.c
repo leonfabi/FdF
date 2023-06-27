@@ -6,18 +6,24 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 16:34:03 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 17:02:50 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-void	ft_close_window(mlx_t *mlx, mlx_image_t *img)
+//void	ft_close_window(mlx_t *mlx, mlx_image_t *img)
+void	ft_close_window(t_mc *fdf, int clean)
 {
-	mlx_delete_image(mlx, img);
-	mlx_close_window(mlx);
-	//mlx_terminate(mlx);
+	mlx_delete_image(fdf->mlx, fdf->img);
+	mlx_close_window(fdf->mlx);
+	if (clean)
+	{
+	ft_lstclear(&fdf->input, &free);
+	ft_free_data(fdf->data, fdf->y_len - 1);
+	mlx_terminate(fdf->mlx);
+	}
 }
 
 void	my_keyhook(mlx_key_data_t keydata, void *param)
@@ -28,7 +34,7 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
 	{
 		ft_printf("ESC pressed\n");
-		ft_close_window(fdf->mlx, fdf->img);
+		ft_close_window(fdf, 0);
 	}
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
 	{
@@ -45,89 +51,7 @@ static void	ft_hook(void *param)
 	ft_rotate_hook(param);
 	ft_zoom_hook(param);
 }
-//#######################################################################################################
-#include <time.h>
 
-int	ft_init(t_mc *fdf)
-{
-	fdf->input = NULL;
-	fdf->x_len = 0;
-	fdf->y_len = 0;
-	fdf->img = NULL;
-	fdf->x_trans = WIDTH / 3;
-	fdf->y_trans = HEIGHT / 3;
-	fdf->zoom = 1;
-	return (1);
-}
-
-int	ft_init_data(t_mc *fdf)
-{
-	int	y_size;
-	
-	y_size = 0;
-	fdf->data = (t_point **)malloc(sizeof(t_point *) * fdf->y_len);
-	if (fdf->data == NULL)
-	{
-		free(fdf->data);
-		fdf->data = NULL;
-		return (-1);
-	}
-	while (y_size < fdf->y_len)
-	{
-		fdf->data[y_size] = malloc(sizeof(t_point) * fdf->x_len);
-		if (fdf->data[y_size] == NULL)
-		{
-			ft_free_data(fdf->data, y_size);
-			return (-1);
-		}
-		y_size++;
-	}
-	return (1);
-}
-
-int	ft_fill_data(t_mc *fdf)
-{
-	int		x;
-	int		y;
-	char	**tmp;
-	t_list	*lst;
-	char	*string;
-	clock_t start_time;
-	double elapsed_time;
-	clock_t end_time;
-
-	x = 0;
-	y = 0;
-	lst = fdf->input;
-	string = (char *)fdf->input->c;
-	while (lst)
-	{
-		tmp = ft_split((char *)lst->c, ' ');
-		x = 0;
-		start_time = clock();
-		while (tmp[x] != NULL)
-		{
-			fdf->data[y][x].z = ft_atoi(tmp[x]);
-			fdf->data[y][x].y = y;
-			fdf->data[y][x].x = x;
-			fdf->data[y][x].y_draw = y;
-			fdf->data[y][x].x_draw = x;
-			x++;
-		}
-		//##########################################################################
-		end_time = clock();
-		elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-		// Print the elapsed time
-		printf("SET_POINT: %.6f seconds\n", elapsed_time);
-		//##########################################################################
-		ft_free_2d(tmp);
-		y++;
-		lst = lst->next;
-	}
-	return (1);
-}
-//###############################################################################################################################3
 int	main(int argc, char **argv)
 {
 	t_mc	fdf_new;
@@ -153,10 +77,7 @@ int	main(int argc, char **argv)
 	mlx_key_hook(fdf_new.mlx, &my_keyhook, &fdf_new);
 	mlx_loop_hook(fdf_new.mlx, ft_hook, &fdf_new);
 	mlx_loop(fdf_new.mlx);
-	mlx_close_window(fdf_new.mlx);
-	mlx_terminate(fdf_new.mlx);
-	ft_lstclear(&fdf_new.input, &free);
-	ft_free_data(fdf_new.data, fdf_new.y_len - 1);
+	ft_close_window(&fdf_new, 1);
 	//system("leaks FdF");
 	return (1);
 }
