@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 18:15:30 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 18:27:44 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,29 @@
 
 void	ft_draw_line(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 {
-	int	dx;
-	int	dy;
-	int	err;
-	int	sx;
-	int	sy;
-	int	e2;
+	int			dx;
+	int			dy;
+	int			err;
+	int			sx;
+	int			sy;
+	int			e2;
+	uint32_t	color;
 
 	dx = abs(p_1.x_draw - p_0.x_draw);
 	sx = p_0.x_draw < p_1.x_draw ? 1 : -1;
 	dy = -abs(p_1.y_draw - p_0.y_draw);
 	sy = p_0.y_draw < p_1.y_draw ? 1 : -1;
 	err = dx + dy;
+	if (p_0.z > 0)
+		color = 0xFF0000FF;
+	else if (p_0.z < 0)
+		color = 0x00FF00FF;
+	else
+		color = 0xFFFFFFFF;
 	while (1)
 	{
 		if (p_0.x_draw + fdf->x_trans >= 0 && p_0.y_draw + fdf->y_trans >= 0 && p_0.x_draw + fdf->x_trans < WIDTH && p_0.y_draw + fdf->y_trans < HEIGHT)
-			mlx_put_pixel(img, p_0.x_draw + fdf->x_trans, p_0.y_draw + fdf->y_trans, 0xFF0000FF);
+			mlx_put_pixel(img, p_0.x_draw + fdf->x_trans, p_0.y_draw + fdf->y_trans, color);
 		if (p_0.x_draw == p_1.x_draw && p_0.y_draw == p_1.y_draw) break;
 		e2 = 2 * err;
 		if (e2 > dy) { err += dy; p_0.x_draw += sx; } /* e_xy+e_x > 0 */
