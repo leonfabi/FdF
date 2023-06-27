@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 17:51:23 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 18:34:32 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ int	ft_fill_data(t_mc *fdf)
 			fdf->data[y][x].z = ft_atoi(tmp[x]);
 			fdf->data[y][x].y = y;
 			fdf->data[y][x].x = x;
+			if (fdf->data[y][x].z > fdf->max)
+				fdf->max = fdf->data[y][x].z;
+			if (fdf->data[y][x].z < fdf->min)
+				fdf->min = fdf->data[y][x].z;
 			x++;
 		}
 		ft_free_2d(tmp);

@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:47:23 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 16:49:32 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 18:32:38 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_init(t_mc *fdf)
 	fdf->x_trans = WIDTH / 3;
 	fdf->y_trans = HEIGHT / 3;
 	fdf->zoom = 1;
+	fdf->max = 0;
+	fdf->min = 0;
 	return (1);
 }
 

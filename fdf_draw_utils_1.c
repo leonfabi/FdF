@@ -6,11 +6,15 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 18:27:44 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 21:02:03 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+uint32_t	get_rgba(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}
 
 void	ft_draw_line(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 {
@@ -27,12 +31,14 @@ void	ft_draw_line(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 	dy = -abs(p_1.y_draw - p_0.y_draw);
 	sy = p_0.y_draw < p_1.y_draw ? 1 : -1;
 	err = dx + dy;
-	if (p_0.z > 0)
-		color = 0xFF0000FF;
-	else if (p_0.z < 0)
-		color = 0x00FF00FF;
-	else
-		color = 0xFFFFFFFF;
+	color = get_rgba(0, 255, 0, 255);
+	//color = (p_0.z - fdf->min) / (fdf->max - fdf->min) * (0xFFFFFFFF - 0xFF0000FF) + 0xFF0000FF;
+	// if (p_0.z > fdf->min && p_0.z < (fdf->min + fdf->max) / 3)
+	// 	color = 0xFF0000FF;
+	// else if (p_0.z > (fdf->min + fdf->max) / 3 && p_0.z < (fdf->min + fdf->max) / 3 * 2)
+	// 	color = 0x00FF00FF;
+	// else
+	// 	color = 0xFFFFFFFF;
 	while (1)
 	{
 		if (p_0.x_draw + fdf->x_trans >= 0 && p_0.y_draw + fdf->y_trans >= 0 && p_0.x_draw + fdf->x_trans < WIDTH && p_0.y_draw + fdf->y_trans < HEIGHT)
