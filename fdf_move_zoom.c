@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 14:04:41 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 15:52:52 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 15:57:09 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_move_hook(void *param)
 		ft_draw_grid(fdf, fdf->img);
 	}
 }
+
 void	ft_zoom(t_mc *fdf)
 {
 	int	y;
@@ -70,8 +71,8 @@ void	ft_zoom(t_mc *fdf)
 void	ft_zoom_hook(void *param)
 {
 	t_mc	*fdf;
-	int	y;
-	int	x;
+	int		y;
+	int		x;
 
 	y = 0;
 	x = 0;

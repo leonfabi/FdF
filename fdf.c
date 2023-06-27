@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 15:46:31 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 16:34:03 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,60 +47,13 @@ static void	ft_hook(void *param)
 }
 //#######################################################################################################
 #include <time.h>
-int	ft_get_x_len(t_mc *fdf)
-{
-	char	**tmp;
-	int		count;
-
-	count = 0;
-	tmp = ft_split((char *)fdf->input->c, ' ');
-	while (tmp[count])
-		count++;
-	ft_free_2d(tmp);
-	return (count);
-}
-
-int	ft_read_map_new(t_mc *fdf, const char *pathname)
-{
-	int		fd;
-	char	*map;
-	int		count;
-
-	count = 0;
-	fd = open(pathname, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Error opening file");
-		return (-1);
-	}
-	map = ft_strtrim(get_next_line(fd), "\n");
-	//map = get_next_line(fd);
-	while (map != NULL)
-	{
-		ft_lstadd_back(&(fdf->input), ft_lstnew(map));
-		map = get_next_line(fd);
-		// if (count && fdf->x_len != ft_get_x_len(fdf))
-		// {
-		// 	free(map);
-		// 	return (-1);
-		// }
-		fdf->y_len++;
-		count++;
-	}
-	fdf->x_len = ft_get_x_len(fdf);
-	close(fd);
-	free(map);
-	return(1);
-}
 
 int	ft_init(t_mc *fdf)
 {
-	fdf->coord = NULL;
 	fdf->input = NULL;
 	fdf->x_len = 0;
 	fdf->y_len = 0;
 	fdf->img = NULL;
-	//fdf->mlx = NULL;
 	fdf->x_trans = WIDTH / 3;
 	fdf->y_trans = HEIGHT / 3;
 	fdf->zoom = 1;
@@ -181,33 +134,11 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (EXIT_FAILURE);
-	clock_t start_time = clock();
-	//##########################################################################
-	clock_t end_time = clock();
-	double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-	//##########################################################################
-	start_time = clock();
 	ft_init(&fdf_new);
-	ft_read_map_new(&fdf_new, argv[1]);
-	//##########################################################################
-	end_time = clock();
-	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-	// Print the elapsed time
-	printf("Elapsed time read new lines: %.6f seconds\n", elapsed_time);
-	//##########################################################################
-	ft_printf("MAP_new X:%d\t Y:%d\n", fdf_new.x_len, fdf_new.y_len);
-	start_time = clock();
+	if (ft_read_map(&fdf_new, argv[1]) == -1)
+		return (EXIT_FAILURE);
 	ft_init_data(&fdf_new);
-	//##########################################################################
-	end_time = clock();
-	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-	// Print the elapsed time
-	printf("Init data: %.6f seconds\n", elapsed_time);
-	//##########################################################################
 	mlx_set_setting(MLX_DECORATED, true);
-	// ft_printf("Test\n");
 	fdf_new.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
 	if (!fdf_new.mlx)
 		ft_error();
@@ -217,31 +148,15 @@ int	main(int argc, char **argv)
 		ft_error();
 		return (EXIT_FAILURE);
 	}
-	start_time = clock();
 	ft_fill_data(&fdf_new);
-	//##########################################################################
-	end_time = clock();
-	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-	// Print the elapsed time
-	printf("Fill map: %.6f seconds\n", elapsed_time);
-	//##########################################################################
-	// start_time = clock();
 	ft_to_isometric(&fdf_new);
-	// //##########################################################################
-	// end_time = clock();
-	// elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-	// // Print the elapsed time
-	// printf("Elapsed time for Calculating isometric view: %.6f seconds\n", elapsed_time);
-	//##########################################################################
-	//ft_draw_grid(&fdf_new, fdf_new.img);
 	mlx_key_hook(fdf_new.mlx, &my_keyhook, &fdf_new);
 	mlx_loop_hook(fdf_new.mlx, ft_hook, &fdf_new);
 	mlx_loop(fdf_new.mlx);
 	mlx_close_window(fdf_new.mlx);
 	mlx_terminate(fdf_new.mlx);
-	// ft_lstclear(&fdf.coord, &free);
+	ft_lstclear(&fdf_new.input, &free);
+	ft_free_data(fdf_new.data, fdf_new.y_len - 1);
 	//system("leaks FdF");
 	return (1);
 }

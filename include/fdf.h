@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/26 13:22:20 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 16:12:25 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_point{
 }	t_point;
 
 typedef struct s_map_coordinates{
-	t_list		*coord;
 	t_list		*input;
 	t_point		**data;
 	int			x_len;

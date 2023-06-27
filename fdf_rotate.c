@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:48:37 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 15:16:06 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 16:21:22 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	ft_rotate_x(t_mc *fdf)
 	double	y_old;
 	double	z_old;
 	double	alpha;
-	int	y;
-	int	x;
+	int		y;
+	int		x;
 
 	y = 0;
 	x = 0;
@@ -45,8 +45,8 @@ void	ft_rotate_y(t_mc *fdf)
 	double	x_old;
 	double	z_old;
 	double	alpha;
-	int	y;
-	int	x;
+	int		y;
+	int		x;
 
 	y = 0;
 	x = 0;
@@ -73,8 +73,8 @@ void	ft_rotate_z(t_mc *fdf)
 	double	x_old;
 	double	y_old;
 	double	alpha;
-	int	y;
-	int	x;
+	int		y;
+	int		x;
 
 	y = 0;
 	x = 0;
@@ -99,10 +99,8 @@ void	ft_rotate_z(t_mc *fdf)
 void	ft_rotate_hook(void *param)
 {
 	t_mc	*fdf;
-	t_list	*tmp;
 
 	fdf = param;
-	tmp = fdf->coord;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Z))
 	{
 		ft_rotate_z(fdf);
