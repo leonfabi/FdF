@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 16:46:38 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 17:51:23 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ int	ft_fill_data(t_mc *fdf)
 	x = 0;
 	y = 0;
 	lst = fdf->input;
-	while (lst)
+	while (lst && y < fdf->y_len)
 	{
 		tmp = ft_split((char *)lst->c, ' ');
 		x = 0;
-		while (tmp[x] != NULL)
+		while (tmp[x] != NULL && x < fdf->x_len)
 		{
 			fdf->data[y][x].z = ft_atoi(tmp[x]);
 			fdf->data[y][x].y = y;
