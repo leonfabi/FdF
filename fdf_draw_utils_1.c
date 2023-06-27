@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/22 08:41:54 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 09:09:57 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,50 @@ t_point	*ft_next_y(t_list *content, int x_len)
 
 void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 {
-	t_list	*tmp;
-	int		count;
+	int	y;
+	int	x;
 
-	tmp = fdf->coord;
+	y = 0;
+	x = 0;
 	ft_bzero(img->pixels, WIDTH * HEIGHT * 4);
-	while (tmp->next)
+	while (y < fdf->y_len - 1)
 	{
-		if (((t_point *)tmp->c)->x < fdf->x_len - 1)
-			ft_draw_line(img, \
-			*(t_point *)tmp->c, *(t_point *)tmp->next->c, fdf);
-		if (((t_point *)tmp->c)->y < fdf->y_len - 1)
-			ft_draw_line(img, \
-			*(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len), fdf);
-		tmp = tmp->next;
+		x = 0;
+		while (x < fdf->x_len - 1)
+		{
+			ft_draw_line(img, fdf->data[y][x], fdf->data[y][x + 1], fdf);
+			ft_draw_line(img, fdf->data[y][x], fdf->data[y + 1][x], fdf);
+			x++;
+		}
+		ft_draw_line(img, fdf->data[y][x], fdf->data[y + 1][x], fdf);
+		y++;
+	}
+	x = 0;
+	while (x < fdf->x_len - 1)
+	{
+		ft_draw_line(img, fdf->data[y][x], fdf->data[y][x + 1], fdf);
+		x++;
 	}
 }
+
+// void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
+// {
+// 	t_list	*tmp;
+// 	int		count;
+
+// 	tmp = fdf->coord;
+// 	ft_bzero(img->pixels, WIDTH * HEIGHT * 4);
+// 	while (tmp->next)
+// 	{
+// 		if (((t_point *)tmp->c)->x < fdf->x_len - 1)
+// 			ft_draw_line(img, \
+// 			*(t_point *)tmp->c, *(t_point *)tmp->next->c, fdf);
+// 		if (((t_point *)tmp->c)->y < fdf->y_len - 1)
+// 			ft_draw_line(img, \
+// 			*(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len), fdf);
+// 		tmp = tmp->next;
+// 	}
+// }
 
 void	ft_to_isometric(t_mc *fdf)
 {

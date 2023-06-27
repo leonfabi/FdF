@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/26 13:40:54 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 09:15:57 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,20 @@ int	ft_read_map_new(t_mc *fdf, const char *pathname)
 		return (-1);
 	}
 	map = ft_strtrim(get_next_line(fd), "\n");
+	//map = get_next_line(fd);
 	while (map != NULL)
 	{
 		ft_lstadd_back(&(fdf->input), ft_lstnew(map));
 		map = get_next_line(fd);
-		if (count && fdf->x_len != ft_get_x_len(fdf))
-		{
-			free(map);
-			return (-1);
-		}
+		// if (count && fdf->x_len != ft_get_x_len(fdf))
+		// {
+		// 	free(map);
+		// 	return (-1);
+		// }
 		fdf->y_len++;
-		fdf->x_len = ft_get_x_len(fdf);
 		count++;
 	}
+	fdf->x_len = ft_get_x_len(fdf);
 	close(fd);
 	free(map);
 	return(1);
@@ -111,7 +112,7 @@ int	ft_init_data(t_mc *fdf)
 	int	y_size;
 	
 	y_size = 0;
-	fdf->data = (t_point **)malloc(sizeof(t_point *) * fdf->x_len);
+	fdf->data = (t_point **)malloc(sizeof(t_point *) * fdf->y_len);
 	if (fdf->data == NULL)
 	{
 		free(fdf->data);
@@ -120,7 +121,7 @@ int	ft_init_data(t_mc *fdf)
 	}
 	while (y_size < fdf->y_len)
 	{
-		fdf->data[y_size] = malloc(sizeof(t_point) * fdf->y_len);
+		fdf->data[y_size] = malloc(sizeof(t_point) * fdf->x_len);
 		if (fdf->data[y_size] == NULL)
 		{
 			ft_free_data(fdf->data, y_size);
@@ -138,27 +139,38 @@ int	ft_fill_data(t_mc *fdf)
 	char	**tmp;
 	t_list	*lst;
 	char	*string;
+	clock_t start_time;
+	double elapsed_time;
+	clock_t end_time;
 
 	x = 0;
 	y = 0;
 	lst = fdf->input;
-	printf("TEST\n");
-	ft_get_x_len(fdf);
-	printf("TEST1; LINESTRING:\n %s\n", (char *)fdf->input->c);
 	string = (char *)fdf->input->c;
-	//tmp = ft_split((char *)fdf->input->c, ' ');
-	ft_split("HALLO", ' ');
-	printf("STRING: %s", (char *)lst->c);
-	while (tmp)
+	while (lst)
 	{
-		while (tmp[x])
+		tmp = ft_split((char *)lst->c, ' ');
+		x = 0;
+		start_time = clock();
+		while (tmp[x] != NULL)
 		{
-			fdf->data[x][y].z = ft_atoi(tmp[x]);
+			fdf->data[y][x].z = SCALING * ft_atoi(tmp[x]);
+			fdf->data[y][x].y = SCALING * y;
+			fdf->data[y][x].x = SCALING * x;
+			fdf->data[y][x].y_draw = SCALING * y;
+			fdf->data[y][x].x_draw = SCALING * x;
 			x++;
 		}
+		//##########################################################################
+		end_time = clock();
+		elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+		// Print the elapsed time
+		printf("SET_POINT: %.6f seconds\n", elapsed_time);
+		//##########################################################################
+		ft_free_2d(tmp);
 		y++;
-		lst = lst->c;
-		tmp = ft_split((char *)lst->c, ' ');
+		lst = lst->next;
 	}
 	return (1);
 }
@@ -177,53 +189,78 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	clock_t start_time = clock();
-	if (ft_read_map(&fdf, argv[1]) == -1)
-	{
-		ft_lstclear(&fdf.coord, &free);
-		return (EXIT_FAILURE);
-	}
+	// if (ft_read_map(&fdf, argv[1]) == -1)
+	// {
+	// 	ft_lstclear(&fdf.coord, &free);
+	// 	return (EXIT_FAILURE);
+	// }
 	ft_printf("MAP X:%d\t Y:%d\n", fdf.x_len, fdf.y_len);
-	ft_init(&fdf_new);
-	ft_read_map_new(&fdf_new, argv[1]);
-	ft_printf("MAP_new X:%d\t Y:%d\n", fdf_new.x_len, fdf_new.y_len);
-	ft_init_data(&fdf_new);
-	ft_fill_data(&fdf_new);
 	//##########################################################################
 	clock_t end_time = clock();
 	double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 
 	// Print the elapsed time
-	printf("Elapsed time for Reading map: %.6f seconds\n", elapsed_time);
+	printf("Elapsed time old method %.6f seconds\n", elapsed_time);
 	//##########################################################################
-	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
-	tmp = fdf.coord;
-	mlx_set_setting(MLX_DECORATED, true);
-	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
-	if (!fdf.mlx)
-		ft_error();
-	// Create and display the image.
-	fdf.img = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
-	if (!fdf.img || (mlx_image_to_window(fdf.mlx, fdf.img, 0, 0) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
 	start_time = clock();
-	ft_to_isometric(&fdf);
+	ft_init(&fdf_new);
+	ft_read_map_new(&fdf_new, argv[1]);
 	//##########################################################################
 	end_time = clock();
 	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 
 	// Print the elapsed time
-	printf("Elapsed time for Calculating isometric view: %.6f seconds\n", elapsed_time);
+	printf("Elapsed time read new lines: %.6f seconds\n", elapsed_time);
 	//##########################################################################
-	ft_draw_grid(&fdf, fdf.img);
-	mlx_key_hook(fdf.mlx, &my_keyhook, &fdf);
-	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
-	mlx_loop(fdf.mlx);
-	mlx_close_window(fdf.mlx);
-	mlx_terminate(fdf.mlx);
-	ft_lstclear(&fdf.coord, &free);
+	ft_printf("MAP_new X:%d\t Y:%d\n", fdf_new.x_len, fdf_new.y_len);
+	start_time = clock();
+	ft_init_data(&fdf_new);
+	//##########################################################################
+	end_time = clock();
+	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+	// Print the elapsed time
+	printf("Init data: %.6f seconds\n", elapsed_time);
+	//##########################################################################
+	start_time = clock();
+	ft_fill_data(&fdf_new);
+	//##########################################################################
+	end_time = clock();
+	elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+	// Print the elapsed time
+	printf("Fill map: %.6f seconds\n", elapsed_time);
+	//##########################################################################
+	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
+	tmp = fdf.coord;
+	mlx_set_setting(MLX_DECORATED, true);
+	//fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
+	fdf_new.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
+	if (!fdf_new.mlx)
+		ft_error();
+	// Create and display the image.
+	fdf_new.img = mlx_new_image(fdf_new.mlx, WIDTH, HEIGHT);
+	if (!fdf_new.img || (mlx_image_to_window(fdf_new.mlx, fdf_new.img, 0, 0) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+	// start_time = clock();
+	//ft_to_isometric(&fdf);
+	// //##########################################################################
+	// end_time = clock();
+	// elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+	// // Print the elapsed time
+	// printf("Elapsed time for Calculating isometric view: %.6f seconds\n", elapsed_time);
+	//##########################################################################
+	ft_draw_grid(&fdf_new, fdf_new.img);
+	mlx_key_hook(fdf_new.mlx, &my_keyhook, &fdf_new);
+	mlx_loop_hook(fdf_new.mlx, ft_hook, &fdf_new);
+	mlx_loop(fdf_new.mlx);
+	mlx_close_window(fdf_new.mlx);
+	mlx_terminate(fdf_new.mlx);
+	// ft_lstclear(&fdf.coord, &free);
 	//system("leaks FdF");
 	return (1);
 }
