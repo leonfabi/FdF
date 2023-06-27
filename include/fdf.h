@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 16:50:51 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 18:07:37 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_draw_line(mlx_image_t *img, t_point point0, \
 		t_point point1, t_mc *fdf);
 void	ft_draw_grid(t_mc *fdf, mlx_image_t *img);
 void	ft_to_isometric(t_mc *fdf);
+void	ft_to_oblique(t_mc *fdf);
 void	ft_rotate_hook(void *param);
 void	ft_move_hook(void *param);
 void	ft_zoom_hook(void *param);

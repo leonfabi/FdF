@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 17:02:50 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 18:08:17 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		fdf->y_trans = HEIGHT / 2;
 		fdf->zoom = 1;
 		ft_to_isometric(fdf);
+	}
+	if (keydata.key == MLX_KEY_K && keydata.action == MLX_PRESS)
+	{
+		fdf->x_trans = WIDTH / 2;
+		fdf->y_trans = HEIGHT / 2;
+		fdf->zoom = 1;
+		ft_to_oblique(fdf);
 	}
 }
 
