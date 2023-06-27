@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 09:09:57 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 10:34:32 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,49 +72,37 @@ void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
 	}
 }
 
-// void	ft_draw_grid(t_mc *fdf, mlx_image_t *img)
-// {
-// 	t_list	*tmp;
-// 	int		count;
-
-// 	tmp = fdf->coord;
-// 	ft_bzero(img->pixels, WIDTH * HEIGHT * 4);
-// 	while (tmp->next)
-// 	{
-// 		if (((t_point *)tmp->c)->x < fdf->x_len - 1)
-// 			ft_draw_line(img, \
-// 			*(t_point *)tmp->c, *(t_point *)tmp->next->c, fdf);
-// 		if (((t_point *)tmp->c)->y < fdf->y_len - 1)
-// 			ft_draw_line(img, \
-// 			*(t_point *)tmp->c, *ft_next_y(tmp, fdf->x_len), fdf);
-// 		tmp = tmp->next;
-// 	}
-// }
-
 void	ft_to_isometric(t_mc *fdf)
 {
-	t_list	*tmp;
 	double	x_pr;
 	double	y_pr;
 	double	z_pr;
 	double	rad;
+	int	y;
+	int	x;
 
-	tmp = fdf->coord;
 	rad = -M_PI / 4;
-	while (tmp)
+	y = 0;
+	x = 0;
+	while (y < fdf->y_len)
 	{
-		x_pr = SCALING * ((t_point *)tmp->c)->x;
-		y_pr = SCALING * ((t_point *)tmp->c)->y;
-		z_pr = SCALING / 2 * ((t_point *)tmp->c)->z;
-		rad = -M_PI / 4;
-		((t_point *)tmp->c)->x_proj = round(cos(rad) * x_pr + sin(rad) * y_pr);
-		y_pr = round(cos(rad) * y_pr - sin(rad) * x_pr);
-		rad = M_PI / 180 * -30;
-		((t_point *)tmp->c)->y_proj = round(cos(rad) * y_pr + sin(rad) * z_pr);
-		((t_point *)tmp->c)->z_proj = round(cos(rad) * z_pr - sin(rad) * y_pr);
-		((t_point *)tmp->c)->x_draw = ((t_point *)tmp->c)->x_proj;
-		((t_point *)tmp->c)->y_draw = ((t_point *)tmp->c)->y_proj;
-		tmp = tmp->next;
+		x = 0;
+		while (x < fdf->x_len)
+		{
+			x_pr = SCALING * fdf->data[y][x].x;
+			y_pr = SCALING * fdf->data[y][x].y;
+			z_pr = SCALING * fdf->data[y][x].z;
+			rad = -M_PI / 4;
+			fdf->data[y][x].x_proj = round(cos(rad) * x_pr + sin(rad) * y_pr);
+			y_pr = round(cos(rad) * y_pr - sin(rad) * x_pr);
+			rad = M_PI / 180 * -30;
+			fdf->data[y][x].y_proj = round(cos(rad) * y_pr + sin(rad) * z_pr);
+			fdf->data[y][x].z_proj = round(cos(rad) * z_pr - sin(rad) * y_pr);
+			fdf->data[y][x].x_draw = fdf->data[y][x].x_proj;
+			fdf->data[y][x].y_draw = fdf->data[y][x].y_proj;
+			x++;
+		}
+		y++;
 	}
 	ft_draw_grid(fdf, fdf->img);
 }

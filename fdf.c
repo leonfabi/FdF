@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 09:15:57 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 11:01:31 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ft_init(t_mc *fdf)
 	fdf->x_len = 0;
 	fdf->y_len = 0;
 	fdf->img = NULL;
-	fdf->mlx = NULL;
+	//fdf->mlx = NULL;
 	fdf->x_trans = 0;
 	fdf->y_trans = 0;
 	fdf->zoom = 0;
@@ -154,11 +154,11 @@ int	ft_fill_data(t_mc *fdf)
 		start_time = clock();
 		while (tmp[x] != NULL)
 		{
-			fdf->data[y][x].z = SCALING * ft_atoi(tmp[x]);
-			fdf->data[y][x].y = SCALING * y;
-			fdf->data[y][x].x = SCALING * x;
-			fdf->data[y][x].y_draw = SCALING * y;
-			fdf->data[y][x].x_draw = SCALING * x;
+			fdf->data[y][x].z = ft_atoi(tmp[x]);
+			fdf->data[y][x].y = y;
+			fdf->data[y][x].x = x;
+			fdf->data[y][x].y_draw = y;
+			fdf->data[y][x].x_draw = x;
 			x++;
 		}
 		//##########################################################################
@@ -177,30 +177,14 @@ int	ft_fill_data(t_mc *fdf)
 //###############################################################################################################################3
 int	main(int argc, char **argv)
 {
-	t_mc	fdf;
 	t_mc	fdf_new;
-	t_list	*tmp;
 
-	fdf.coord = NULL;
-	fdf.x_len = 0;
-	fdf.x_trans = 0;//WIDTH / 2;
-	fdf.y_trans = 0;//HEIGHT / 2;
-	fdf.zoom = 1.0;
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	clock_t start_time = clock();
-	// if (ft_read_map(&fdf, argv[1]) == -1)
-	// {
-	// 	ft_lstclear(&fdf.coord, &free);
-	// 	return (EXIT_FAILURE);
-	// }
-	ft_printf("MAP X:%d\t Y:%d\n", fdf.x_len, fdf.y_len);
 	//##########################################################################
 	clock_t end_time = clock();
 	double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-	// Print the elapsed time
-	printf("Elapsed time old method %.6f seconds\n", elapsed_time);
 	//##########################################################################
 	start_time = clock();
 	ft_init(&fdf_new);
@@ -222,6 +206,17 @@ int	main(int argc, char **argv)
 	// Print the elapsed time
 	printf("Init data: %.6f seconds\n", elapsed_time);
 	//##########################################################################
+	mlx_set_setting(MLX_DECORATED, true);
+	// ft_printf("Test\n");
+	fdf_new.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
+	if (!fdf_new.mlx)
+		ft_error();
+	fdf_new.img = mlx_new_image(fdf_new.mlx, WIDTH, HEIGHT);
+	if (!fdf_new.img || (mlx_image_to_window(fdf_new.mlx, fdf_new.img, 0, 0) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
 	start_time = clock();
 	ft_fill_data(&fdf_new);
 	//##########################################################################
@@ -231,22 +226,8 @@ int	main(int argc, char **argv)
 	// Print the elapsed time
 	printf("Fill map: %.6f seconds\n", elapsed_time);
 	//##########################################################################
-	ft_printf("Dimensions: x: %d, y: %d\n", fdf.x_len, fdf.y_len);
-	tmp = fdf.coord;
-	mlx_set_setting(MLX_DECORATED, true);
-	//fdf.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
-	fdf_new.mlx = mlx_init(WIDTH, HEIGHT, "FdF", false);
-	if (!fdf_new.mlx)
-		ft_error();
-	// Create and display the image.
-	fdf_new.img = mlx_new_image(fdf_new.mlx, WIDTH, HEIGHT);
-	if (!fdf_new.img || (mlx_image_to_window(fdf_new.mlx, fdf_new.img, 0, 0) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
 	// start_time = clock();
-	//ft_to_isometric(&fdf);
+	ft_to_isometric(&fdf_new);
 	// //##########################################################################
 	// end_time = clock();
 	// elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
@@ -254,7 +235,7 @@ int	main(int argc, char **argv)
 	// // Print the elapsed time
 	// printf("Elapsed time for Calculating isometric view: %.6f seconds\n", elapsed_time);
 	//##########################################################################
-	ft_draw_grid(&fdf_new, fdf_new.img);
+	//ft_draw_grid(&fdf_new, fdf_new.img);
 	mlx_key_hook(fdf_new.mlx, &my_keyhook, &fdf_new);
 	mlx_loop_hook(fdf_new.mlx, ft_hook, &fdf_new);
 	mlx_loop(fdf_new.mlx);
