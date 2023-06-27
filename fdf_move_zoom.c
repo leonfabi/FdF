@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 14:04:41 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 14:07:10 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 15:52:52 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,50 @@ void	ft_move_hook(void *param)
 		ft_draw_grid(fdf, fdf->img);
 	}
 }
+void	ft_zoom(t_mc *fdf)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	x = 0;
+	while (y < fdf->y_len)
+	{
+		x = 0;
+		while (x < fdf->x_len)
+		{
+			fdf->data[y][x].z_proj = fdf->zoom * \
+			fdf->data[y][x].z_proj;
+			fdf->data[y][x].y_proj = fdf->zoom * \
+			fdf->data[y][x].y_proj;
+			fdf->data[y][x].x_proj = fdf->zoom * \
+			fdf->data[y][x].x_proj;
+			fdf->data[y][x].x_draw = round(fdf->data[y][x].x_proj);
+			fdf->data[y][x].y_draw = round(fdf->data[y][x].y_proj);
+			x++;
+		}
+		y++;
+	}
+	fdf->zoom = 1;
+}
 
 void	ft_zoom_hook(void *param)
 {
 	t_mc	*fdf;
-	t_list	*tmp;
+	int	y;
+	int	x;
 
-	tmp = fdf->coord;
+	y = 0;
+	x = 0;
 	fdf = param;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_I))
 	{
-		fdf->zoom += 0.01;
-		while (tmp)
-		{
-			((t_point *)tmp->c)->z_proj = fdf->zoom * \
-			((t_point *)tmp->c)->z_proj;
-			((t_point *)tmp->c)->y_proj = fdf->zoom * \
-			((t_point *)tmp->c)->y_proj;
-			((t_point *)tmp->c)->x_proj = fdf->zoom * \
-			((t_point *)tmp->c)->x_proj;
-			((t_point *)tmp->c)->x_draw = round(((t_point *)tmp->c)->x_proj);
-			((t_point *)tmp->c)->y_draw = round(((t_point *)tmp->c)->y_proj);
-			tmp = tmp->next;
-		}
-		ft_draw_grid(fdf, fdf->img);
+		fdf->zoom += 0.1;
 	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_O))
+	{
+		fdf->zoom -= 0.1;
+	}
+	ft_zoom(fdf);
+	ft_draw_grid(fdf, fdf->img);
 }

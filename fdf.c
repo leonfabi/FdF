@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 11:01:31 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/27 15:46:31 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	ft_hook(void *param)
 {
 	ft_move_hook(param);
 	ft_rotate_hook(param);
-	//ft_zoom_hook(param);
+	ft_zoom_hook(param);
 }
 //#######################################################################################################
 #include <time.h>
@@ -101,9 +101,9 @@ int	ft_init(t_mc *fdf)
 	fdf->y_len = 0;
 	fdf->img = NULL;
 	//fdf->mlx = NULL;
-	fdf->x_trans = 0;
-	fdf->y_trans = 0;
-	fdf->zoom = 0;
+	fdf->x_trans = WIDTH / 3;
+	fdf->y_trans = HEIGHT / 3;
+	fdf->zoom = 1;
 	return (1);
 }
 
