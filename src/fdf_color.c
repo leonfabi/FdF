@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:43:03 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 10:58:31 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:09:08 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ uint32_t	get_rgba(int r, int g, int b, int a)
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-uint32_t	ft_color(t_point p_0, t_mc *fdf)
+uint32_t	ft_color(int z, t_mc *fdf)
 {
 	int	norm;
 
-	norm = (p_0.z - fdf->min) / (fdf->max - fdf->min) * 6 * 256;
+	norm = (z - fdf->min) / (fdf->max - fdf->min) * 6 * 256;
 	if (norm >= 5 * 256)
 		return (get_rgba(255, 0, 255 - (norm - 5 * 256), 255));
 	else if (norm >= 4 * 256)
@@ -34,4 +34,12 @@ uint32_t	ft_color(t_point p_0, t_mc *fdf)
 		return (get_rgba(255 - (norm - 256), 255, 0, 255));
 	else
 		return (get_rgba(255, norm, 0, 255));
+}
+uint32_t	ft_color_gradient(t_point p_0, t_point p_1, t_mc *fdf)
+{
+	int	dz;
+
+	dz = p_0.z + (p_1.z - p_0.z) * (p_0.x_draw - p_0.x_proj) \
+	/ (p_1.x_proj - p_0.x_proj);
+	return (ft_color(dz, fdf));
 }

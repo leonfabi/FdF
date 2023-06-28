@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_utils_1.c                                      :+:      :+:    :+:   */
+/*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 15:57:26 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/26 13:13:18 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 14:55:00 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,26 @@ void	ft_error(void)
 {
 	printf("%s", mlx_strerror(mlx_errno));
 	exit(EXIT_FAILURE);
+}
+
+void	ft_reset(t_mc *fdf, int mode)
+{
+	if (mode == 2)
+	{
+		if (fdf->color)
+			fdf->color = 0;
+		else
+			fdf->color = 1;
+		ft_draw_grid(fdf, fdf->img);
+		return ;
+	}
+	fdf->x_trans = WIDTH / 3;
+	fdf->y_trans = HEIGHT / 3;
+	fdf->zoom = 1;
+	if (mode == 0)
+		ft_to_isometric(fdf);
+	else if (mode == 1)
+		ft_to_xy(fdf);
+	else if (mode == 3)
+		ft_to_yz(fdf);
 }

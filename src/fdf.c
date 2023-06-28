@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 12:05:53 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 14:54:25 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,6 @@ void	ft_close_window(t_mc *fdf, int clean)
 	}
 }
 
-void	ft_reset(t_mc *fdf, int mode)
-{
-	if (mode == 2)
-	{
-		if (fdf->color)
-			fdf->color = 0;
-		else
-			fdf->color = 1;
-		ft_draw_grid(fdf, fdf->img);
-		return ;
-	}
-	fdf->x_trans = WIDTH / 2;
-	fdf->y_trans = HEIGHT / 2;
-	fdf->zoom = 1;
-	if (mode == 0)
-		ft_to_isometric(fdf);
-	else if (mode == 1)
-		ft_to_xy(fdf);
-}
-
 void	my_keyhook(mlx_key_data_t keydata, void *param)
 {
 	t_mc	*fdf;
@@ -58,6 +38,8 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		ft_reset(fdf, 1);
 	if (keydata.key == MLX_KEY_C && keydata.action == MLX_PRESS)
 		ft_reset(fdf, 2);
+	if (keydata.key == MLX_KEY_G && keydata.action == MLX_PRESS)
+		ft_reset(fdf, 3);
 }
 
 static void	ft_hook(void *param)

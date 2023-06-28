@@ -6,13 +6,13 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 13:48:37 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 16:21:22 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 15:24:46 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_rotate_x(t_mc *fdf)
+void	ft_rotate_x(t_mc *fdf, int sign)
 {
 	double	y_old;
 	double	z_old;
@@ -22,7 +22,7 @@ void	ft_rotate_x(t_mc *fdf)
 
 	y = 0;
 	x = 0;
-	alpha = M_PI / 180 * 1;
+	alpha = M_PI / 180 * sign;
 	while (y < fdf->y_len)
 	{
 		x = 0;
@@ -40,7 +40,7 @@ void	ft_rotate_x(t_mc *fdf)
 	}
 }
 
-void	ft_rotate_y(t_mc *fdf)
+void	ft_rotate_y(t_mc *fdf, int sign)
 {
 	double	x_old;
 	double	z_old;
@@ -50,7 +50,7 @@ void	ft_rotate_y(t_mc *fdf)
 
 	y = 0;
 	x = 0;
-	alpha = M_PI / 180 * 1;
+	alpha = M_PI / 180 * sign;
 	while (y < fdf->y_len)
 	{
 		x = 0;
@@ -68,7 +68,7 @@ void	ft_rotate_y(t_mc *fdf)
 	}
 }
 
-void	ft_rotate_z(t_mc *fdf)
+void	ft_rotate_z(t_mc *fdf, int sign)
 {
 	double	x_old;
 	double	y_old;
@@ -78,7 +78,7 @@ void	ft_rotate_z(t_mc *fdf)
 
 	y = 0;
 	x = 0;
-	alpha = M_PI / 180 * 1;
+	alpha = M_PI / 180 * sign;
 	while (y < fdf->y_len)
 	{
 		x = 0;
@@ -96,24 +96,35 @@ void	ft_rotate_z(t_mc *fdf)
 	}
 }
 
+void	ft_rotate(t_mc *fdf, int axis, int direction)
+{
+	if (axis == 0)
+		ft_rotate_z(fdf, direction);
+	else if (axis == 1)
+		ft_rotate_y(fdf, direction);
+	else if (axis == 2)
+		ft_rotate_x(fdf, direction);
+	ft_draw_grid(fdf, fdf->img);
+}
+
 void	ft_rotate_hook(void *param)
 {
 	t_mc	*fdf;
 
 	fdf = param;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Z))
-	{
-		ft_rotate_z(fdf);
-		ft_draw_grid(fdf, fdf->img);
-	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Y))
-	{
-		ft_rotate_y(fdf);
-		ft_draw_grid(fdf, fdf->img);
-	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_X))
-	{
-		ft_rotate_x(fdf);
-		ft_draw_grid(fdf, fdf->img);
-	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_3) && \
+	mlx_is_key_down(fdf->mlx, MLX_KEY_SPACE))
+		ft_rotate(fdf, 0, -1);
+	else if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_3))
+		ft_rotate(fdf, 0, 1);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_2) && \
+	mlx_is_key_down(fdf->mlx, MLX_KEY_SPACE))
+		ft_rotate(fdf, 1, -1);
+	else if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_2))
+		ft_rotate(fdf, 1, 1);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_1) && \
+	mlx_is_key_down(fdf->mlx, MLX_KEY_SPACE))
+		ft_rotate(fdf, 2, -1);
+	else if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_1))
+		ft_rotate(fdf, 2, 1);
 }
