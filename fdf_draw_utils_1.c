@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 21:02:03 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 09:24:29 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,13 @@ uint32_t	get_rgba(int r, int g, int b, int a)
 
 void	ft_draw_line(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 {
-	int			dx;
-	int			dy;
-	int			err;
-	int			sx;
-	int			sy;
-	int			e2;
 	uint32_t	color;
 
-	dx = abs(p_1.x_draw - p_0.x_draw);
-	sx = p_0.x_draw < p_1.x_draw ? 1 : -1;
-	dy = -abs(p_1.y_draw - p_0.y_draw);
-	sy = p_0.y_draw < p_1.y_draw ? 1 : -1;
-	err = dx + dy;
+	fdf->draw.dx = fabs(p_1.x_draw - p_0.x_draw);
+	fdf->draw.sx = p_0.x_draw < p_1.x_draw ? 1 : -1;
+	fdf->draw.dy = -fabs(p_1.y_draw - p_0.y_draw);
+	fdf->draw.sy = p_0.y_draw < p_1.y_draw ? 1 : -1;
+	fdf->draw.err = fdf->draw.dx + fdf->draw.dy;
 	color = get_rgba(0, 255, 0, 255);
 	//color = (p_0.z - fdf->min) / (fdf->max - fdf->min) * (0xFFFFFFFF - 0xFF0000FF) + 0xFF0000FF;
 	// if (p_0.z > fdf->min && p_0.z < (fdf->min + fdf->max) / 3)
@@ -44,9 +38,9 @@ void	ft_draw_line(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 		if (p_0.x_draw + fdf->x_trans >= 0 && p_0.y_draw + fdf->y_trans >= 0 && p_0.x_draw + fdf->x_trans < WIDTH && p_0.y_draw + fdf->y_trans < HEIGHT)
 			mlx_put_pixel(img, p_0.x_draw + fdf->x_trans, p_0.y_draw + fdf->y_trans, color);
 		if (p_0.x_draw == p_1.x_draw && p_0.y_draw == p_1.y_draw) break;
-		e2 = 2 * err;
-		if (e2 > dy) { err += dy; p_0.x_draw += sx; } /* e_xy+e_x > 0 */
-		if (e2 < dx) { err += dx; p_0.y_draw += sy; } /* e_xy+e_y < 0 */
+		fdf->draw.e = 2 * fdf->draw.err;
+		if (fdf->draw.e > fdf->draw.dy) { fdf->draw.err += fdf->draw.dy; p_0.x_draw += fdf->draw.sx; } /* e_xy+e_x > 0 */
+		if (fdf->draw.e < fdf->draw.dx) { fdf->draw.err += fdf->draw.dx; p_0.y_draw += fdf->draw.sy; } /* e_xy+e_y < 0 */
 	}
 }
 

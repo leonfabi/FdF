@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:47:23 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 18:32:38 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 09:23:52 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ int	ft_init(t_mc *fdf)
 	fdf->zoom = 1;
 	fdf->max = 0;
 	fdf->min = 0;
+	// fdf->draw = (t_ld )malloc(sizeof(t_ld));
+	// if (fdf->draw == NULL)
+	// {
+	// 	free(fdf->draw);
+	// 	fdf->draw = NULL;
+	// 	return (-1);
+	// }
+	fdf->draw.dx = 0;
+	fdf->draw.dy = 0;
+	fdf->draw.err = 0;
+	fdf->draw.sx = 0;
+	fdf->draw.sy = 0;
+	fdf->draw.e = 0;
 	return (1);
 }
 

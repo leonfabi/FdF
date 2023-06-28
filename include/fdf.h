@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 18:31:42 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 09:23:45 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,24 @@
 # include <math.h>
 
 typedef struct s_point{
-	double			x;
-	double			y;
-	double			z;
-	double			x_proj;
-	double			y_proj;
-	double			z_proj;
-	double			x_draw;
-	double			y_draw;
+	double	x;
+	double	y;
+	double	z;
+	double	x_proj;
+	double	y_proj;
+	double	z_proj;
+	double	x_draw;
+	double	y_draw;
 }	t_point;
+
+typedef struct s_line_draw{
+	int	dx;
+	int	dy;
+	int	err;
+	int	sx;
+	int	sy;
+	int	e;
+}	t_ld;
 
 typedef struct s_map_coordinates{
 	t_list		*input;
@@ -44,6 +53,7 @@ typedef struct s_map_coordinates{
 	int			y_len;
 	mlx_image_t	*img;
 	mlx_t		*mlx;
+	t_ld		draw;
 	double		x_trans;
 	double		y_trans;
 	double		zoom;
