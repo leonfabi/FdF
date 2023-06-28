@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 11:07:47 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 12:12:40 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,14 @@ void	ft_draw_line(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 {
 	fdf->draw.dx = fabs(p_1.x_draw - p_0.x_draw);
 	if (p_0.x_draw < p_1.x_draw)
-	{
 		fdf->draw.sx = 1;
-	}
 	else
-	{
 		fdf->draw.sx = -1;
-	}
 	fdf->draw.dy = -fabs(p_1.y_draw - p_0.y_draw);
 	if (p_0.y_draw < p_1.y_draw)
-	{
 		fdf->draw.sy = 1;
-	}
 	else
-	{
 		fdf->draw.sy = -1;
-	}
 	fdf->draw.err = fdf->draw.dx + fdf->draw.dy;
 	ft_draw_line_loop(img, p_0, p_1, fdf);
 }

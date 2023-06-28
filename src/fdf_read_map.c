@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/27 18:34:32 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 12:55:41 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,14 @@ int	ft_read_map(t_mc *fdf, const char *pathname)
 		return (-1);
 	}
 	map = get_next_line(fd);
-	fdf->x_len = ft_get_x_len(map);
+	if (map == NULL)
+	{
+		perror("Map empty");
+		return (-1);
+	}
 	while (map != NULL)
 	{
+		fdf->x_len = ft_get_x_len(map);
 		ft_lstadd_back(&(fdf->input), ft_lstnew(map));
 		map = get_next_line(fd);
 		fdf->y_len++;

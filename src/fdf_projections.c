@@ -6,20 +6,36 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:46:32 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 11:37:10 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 12:40:24 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_to_isometric(t_mc *fdf)
+void	ft_isometric_calculation(t_mc *fdf, int y, int x, double rad)
 {
 	double	x_pr;
 	double	y_pr;
 	double	z_pr;
+
+	x_pr = SCALING * fdf->data[y][x].x;
+	y_pr = SCALING * fdf->data[y][x].y;
+	z_pr = SCALING * fdf->data[y][x].z;
+	rad = -M_PI / 4;
+	fdf->data[y][x].x_proj = round(cos(rad) * x_pr + sin(rad) * y_pr);
+	y_pr = round(cos(rad) * y_pr - sin(rad) * x_pr);
+	rad = M_PI / 180 * -35.264;
+	fdf->data[y][x].y_proj = round(cos(rad) * y_pr + sin(rad) * z_pr);
+	fdf->data[y][x].z_proj = round(cos(rad) * z_pr - sin(rad) * y_pr);
+	fdf->data[y][x].x_draw = fdf->data[y][x].x_proj;
+	fdf->data[y][x].y_draw = fdf->data[y][x].y_proj;
+}
+
+void	ft_to_isometric(t_mc *fdf)
+{
 	double	rad;
-	int	y;
-	int	x;
+	int		y;
+	int		x;
 
 	rad = -M_PI / 4;
 	y = 0;
@@ -29,17 +45,7 @@ void	ft_to_isometric(t_mc *fdf)
 		x = 0;
 		while (x < fdf->x_len)
 		{
-			x_pr = SCALING * fdf->data[y][x].x;
-			y_pr = SCALING * fdf->data[y][x].y;
-			z_pr = SCALING * fdf->data[y][x].z;
-			rad = -M_PI / 4;
-			fdf->data[y][x].x_proj = round(cos(rad) * x_pr + sin(rad) * y_pr);
-			y_pr = round(cos(rad) * y_pr - sin(rad) * x_pr);
-			rad = M_PI / 180 * -35.264;
-			fdf->data[y][x].y_proj = round(cos(rad) * y_pr + sin(rad) * z_pr);
-			fdf->data[y][x].z_proj = round(cos(rad) * z_pr - sin(rad) * y_pr);
-			fdf->data[y][x].x_draw = fdf->data[y][x].x_proj;
-			fdf->data[y][x].y_draw = fdf->data[y][x].y_proj;
+			ft_isometric_calculation(fdf, y, x, rad);
 			x++;
 		}
 		y++;
