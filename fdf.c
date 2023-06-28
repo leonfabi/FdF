@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 08:43:36 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 11:03:52 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	fdf = param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
-		ft_printf("ESC pressed\n");
 		ft_close_window(fdf, 0);
 	}
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
@@ -47,8 +46,16 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	{
 		fdf->x_trans = WIDTH / 2;
 		fdf->y_trans = HEIGHT / 2;
-		fdf->zoom = 1;
+		fdf->zoom = 0.2;
 		ft_to_oblique(fdf);
+	}
+	if (keydata.key == MLX_KEY_C && keydata.action == MLX_PRESS)
+	{
+		if (fdf->color)
+			fdf->color = 0;
+		else
+			fdf->color = 1;
+		ft_draw_grid(fdf, fdf->img);
 	}
 }
 
