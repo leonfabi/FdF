@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:43:03 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 16:09:08 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:41:24 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,4 @@ uint32_t	ft_color(int z, t_mc *fdf)
 	else
 		return (get_rgba(255, norm, 0, 255));
 }
-uint32_t	ft_color_gradient(t_point p_0, t_point p_1, t_mc *fdf)
-{
-	int	dz;
 
-	dz = p_0.z + (p_1.z - p_0.z) * (p_0.x_draw - p_0.x_proj) \
-	/ (p_1.x_proj - p_0.x_proj);
-	return (ft_color(dz, fdf));
-}

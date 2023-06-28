@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 16:08:50 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:41:18 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,4 @@ void		ft_zoom_hook(void *param);
 void		ft_error(void);
 uint32_t	get_rgba(int r, int g, int b, int a);
 uint32_t	ft_color(int z, t_mc *fdf);
-uint32_t	ft_color_gradient(t_point p_0, t_point p_1, t_mc *fdf);
 #endif

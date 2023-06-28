@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 12:40:53 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/21 14:02:32 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:41:44 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,13 @@ void	ft_draw_map(mlx_image_t *img, t_mc *fdf)
 			mlx_put_pixel(img, (1) * ((t_point *) tmp->c)->x_draw,(1) * ((t_point *) tmp->c)->y_draw, 0xFF0000FF);
 		tmp = tmp->next;
 	}
+}
+
+uint32_t	ft_color_gradient(t_point p_0, t_point p_1, t_mc *fdf)
+{
+	int	dz;
+
+	dz = p_0.z + (p_1.z - p_0.z) * (p_0.x_draw - p_0.x_proj) \
+	/ (p_1.x_proj - p_0.x_proj);
+	return (ft_color(dz, fdf));
 }

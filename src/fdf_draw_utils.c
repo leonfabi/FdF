@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:34:58 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 16:17:28 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:41:11 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	ft_draw_line_loop(mlx_image_t *img, t_point p_0, t_point p_1, t_mc *fdf)
 	uint32_t	color;
 
 	color = get_rgba(255, 255, 255, 255);
+	if (fdf->color)
+		color = ft_color(p_0.z, fdf);
 	while (1)
 	{
-		if (fdf->color)
-			color = ft_color_gradient(p_0, p_1, fdf);
 		if (p_0.x_draw + fdf->x_trans >= 0 && p_0.y_draw + fdf->y_trans >= 0 && \
 		p_0.x_draw + fdf->x_trans < WIDTH && p_0.y_draw + fdf->y_trans < HEIGHT)
 			mlx_put_pixel(img, p_0.x_draw + fdf->x_trans, \
