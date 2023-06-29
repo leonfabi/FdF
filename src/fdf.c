@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/29 14:01:46 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 14:18:34 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,5 @@ int	main(int argc, char **argv)
 	mlx_loop(fdf.mlx);
 	ft_close_window(&fdf, 1, 1, 1);
 	mlx_terminate(fdf.mlx);
-	system("leaks FdF");
 	return (1);
 }
