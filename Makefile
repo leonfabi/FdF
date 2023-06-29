@@ -6,7 +6,7 @@
 #    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 09:15:48 by fkrug             #+#    #+#              #
-#    Updated: 2023/06/29 11:59:16 by fkrug            ###   ########.fr        #
+#    Updated: 2023/06/29 13:08:10 by fkrug            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ ifeq ($(OPSYS), Linux)
 else ifeq ($(OPSYS), Darwin)
 	CC := cc
 	DB := lldb
-	CFLAGS ?= -g -Wunreachable-code -Ofast -Wextra -Wall -Werror
+	CFLAGS ?= -g -Ofast 
+#-Wunreachable-code -Wextra -Wall -Werror
 	LIB_PATH := -L"$(shell brew --prefix glfw)/lib/"
 else
 	$(error $(OPSYS))

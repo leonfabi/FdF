@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/29 13:02:14 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 13:09:50 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (EXIT_FAILURE);
-	ft_initialize(&fdf, argv);
+	if (ft_initialize(&fdf, argv) == -1)
+	{
+		system("leaks FdF");
+		return (EXIT_FAILURE);
+	}
 	//ft_init(&fdf);
 	// if (ft_read_map(&fdf, argv[1]) == -1)
 	// 	return (EXIT_FAILURE);
