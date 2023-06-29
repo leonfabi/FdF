@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 09:43:03 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 16:41:24 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 14:02:03 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ uint32_t	ft_color(int z, t_mc *fdf)
 	else
 		return (get_rgba(255, norm, 0, 255));
 }
-

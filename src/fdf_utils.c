@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 15:57:26 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/29 13:40:33 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 14:02:20 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,5 @@ int	ft_close_window(t_mc *fdf, int input, int data, int mlx)
 		mlx_delete_image(fdf->mlx, fdf->img);
 		mlx_close_window(fdf->mlx);
 	}
-		//mlx_terminate(fdf->mlx);
 	return (-1);
 }

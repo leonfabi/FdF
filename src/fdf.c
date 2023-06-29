@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:52:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/29 13:50:34 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 14:01:46 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	ft_hook(void *param)
 	ft_rotate_hook(param);
 	ft_zoom_hook(param);
 }
+
 int	ft_initialize(t_mc *fdf, char **argv)
 {
 	ft_init(fdf);
@@ -63,7 +64,6 @@ int	ft_initialize(t_mc *fdf, char **argv)
 	ft_to_isometric(fdf);
 	return (1);
 }
-
 
 int	main(int argc, char **argv)
 {
