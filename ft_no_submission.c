@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 12:40:53 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 16:41:44 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 12:47:15 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,14 @@ uint32_t	ft_color_gradient(t_point p_0, t_point p_1, t_mc *fdf)
 	dz = p_0.z + (p_1.z - p_0.z) * (p_0.x_draw - p_0.x_proj) \
 	/ (p_1.x_proj - p_0.x_proj);
 	return (ft_color(dz, fdf));
+}
+int	ft_error_handler(char *str, int error, void *tmp, char **tmp2d)
+{
+	if (str != NULL)
+		ft_printf("Error %s: %s\n", str, strerror(error));
+	if (tmp != NULL)
+		free(tmp);
+	if (tmp2d != NULL)
+		ft_free_2d(tmp2d);
+	return (-1);
 }

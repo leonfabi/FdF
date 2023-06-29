@@ -6,22 +6,11 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 14:48:14 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 12:47:20 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-int	ft_error_handler(char *str, int error, void *tmp, char **tmp2d)
-{
-	if (str != NULL)
-		ft_printf("Error %s: %s\n", str, strerror(error));
-	if (tmp != NULL)
-		free(tmp);
-	if (tmp2d != NULL)
-		ft_free_2d(tmp2d);
-	return (-1);
-}
 
 int	ft_get_x_len(char *line)
 {

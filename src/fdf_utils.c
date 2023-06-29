@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 15:57:26 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 14:55:00 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 12:54:56 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,16 @@ void	ft_free_2d(char **tmp)
 
 void	ft_free_data(t_point **tmp, int y_size)
 {
-	while (y_size >= 0)
+	if (tmp != NULL)
 	{
-		free(tmp[y_size]);
-		tmp[y_size] = 0;
-		y_size--;
+		while (y_size >= 0)
+		{
+			free(tmp[y_size]);
+			tmp[y_size] = 0;
+			y_size--;
+		}
+		free(tmp);
 	}
-	free(tmp);
 }
 
 void	ft_error(void)
@@ -62,4 +65,16 @@ void	ft_reset(t_mc *fdf, int mode)
 		ft_to_xy(fdf);
 	else if (mode == 3)
 		ft_to_yz(fdf);
+}
+
+void	ft_close_window(t_mc *fdf, int clean)
+{
+	mlx_delete_image(fdf->mlx, fdf->img);
+	mlx_close_window(fdf->mlx);
+	if (clean)
+	{
+		ft_lstclear(&fdf->input, &free);
+		ft_free_data(fdf->data, fdf->y_len - 1);
+		mlx_terminate(fdf->mlx);
+	}
 }

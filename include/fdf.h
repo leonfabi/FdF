@@ -6,15 +6,15 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 16:41:18 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 12:35:09 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 2400
+# define HEIGHT 1350
 # define SCALING 20
 
 # include "MLX42.h"
@@ -81,4 +81,6 @@ void		ft_zoom_hook(void *param);
 void		ft_error(void);
 uint32_t	get_rgba(int r, int g, int b, int a);
 uint32_t	ft_color(int z, t_mc *fdf);
+void		ft_instructions(t_mc *fdf);
+void		ft_close_window(t_mc *fdf, int clean);
 #endif
