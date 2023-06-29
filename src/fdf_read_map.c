@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 08:35:56 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/29 12:47:20 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 13:45:13 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_fill_data_array(t_mc *fdf, int x, int y, char **tmp)
 		fdf->min = fdf->data[y][x].z;
 }
 
-int	ft_fill_data(t_mc *fdf)
+void	ft_fill_data(t_mc *fdf)
 {
 	int		x;
 	int		y;
@@ -88,5 +88,4 @@ int	ft_fill_data(t_mc *fdf)
 		y++;
 		lst = lst->next;
 	}
-	return (1);
 }

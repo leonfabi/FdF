@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:53:07 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/29 12:35:09 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 13:45:30 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ typedef struct s_map_coordinates{
 }	t_mc;
 
 int			ft_read_map(t_mc *fdf, const char *pathname);
-int			ft_fill_data(t_mc *fdf);
-int			ft_init(t_mc *fdf);
+void			ft_fill_data(t_mc *fdf);
+void			ft_init(t_mc *fdf);
 int			ft_init_data(t_mc *fdf);
 void		ft_reset(t_mc *fdf, int mode);
 void		ft_free_2d(char **tmp);
@@ -82,5 +82,5 @@ void		ft_error(void);
 uint32_t	get_rgba(int r, int g, int b, int a);
 uint32_t	ft_color(int z, t_mc *fdf);
 void		ft_instructions(t_mc *fdf);
-void		ft_close_window(t_mc *fdf, int clean);
+int			ft_close_window(t_mc *fdf, int input, int data, int mlx);
 #endif

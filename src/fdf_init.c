@@ -6,13 +6,13 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:47:23 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/29 12:00:06 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/06/29 13:32:08 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_init(t_mc *fdf)
+void	ft_init(t_mc *fdf)
 {
 	fdf->input = NULL;
 	fdf->x_len = 0;
@@ -30,7 +30,6 @@ int	ft_init(t_mc *fdf)
 	fdf->draw.sx = 0;
 	fdf->draw.sy = 0;
 	fdf->draw.e = 0;
-	return (1);
 }
 
 int	ft_init_data(t_mc *fdf)
