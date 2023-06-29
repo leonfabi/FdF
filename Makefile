@@ -6,7 +6,7 @@
 #    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 09:15:48 by fkrug             #+#    #+#              #
-#    Updated: 2023/06/29 14:10:25 by fkrug            ###   ########.fr        #
+#    Updated: 2023/06/29 14:54:33 by fkrug            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,16 +16,17 @@ OPSYS := $(shell uname)
 ifeq ($(OPSYS), Linux)
 	CC := gcc
 	DB := gdb
-	CFLAGS ?= -g -Wextra -Wall -Werror -Wunreachable-code -Ofast
+	CFLAGS ?= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 else ifeq ($(OPSYS), Darwin)
 	CC := cc
 	DB := lldb
-	CFLAGS ?= -g -Ofast -Wunreachable-code -Wextra -Wall -Werror
+	CFLAGS ?= -Ofast -Wunreachable-code -Wextra -Wall -Werror
 	LIB_PATH := -L"$(shell brew --prefix glfw)/lib/"
 else
 	$(error $(OPSYS))
 endif
 LIBMLX	:= MLX42
+MLX := $(LIBMLX)/build/libmlx42.a
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 HEADERS	:= -I ./include -I $(LIBMLX)/include/MLX42 -I $(LIBFT_DIR)/include
@@ -38,9 +39,9 @@ SRCS	:= fdf.c fdf_read_map.c fdf_utils.c fdf_draw_utils.c fdf_rotate.c \
 SRCS := $(addprefix $(SRCS_DIR),$(SRCS))
 OBJS	:= ${SRCS:.c=.o}
 
-all: $(LIBFT) libmlx $(OBJS) $(NAME)
+all: $(NAME)
 
-libmlx:
+$(MLX):
 	@if [ ! -d "./$(LIBMLX)" ]; then \
 		git clone https://github.com/codam-coding-college/MLX42.git; \
 	fi
@@ -52,7 +53,7 @@ $(OBJS): %.o:%.c
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
@@ -68,4 +69,4 @@ fclean: clean
 
 re: clean all
 
-.PHONY: all, clean, fclean, re, libmlx
+.PHONY: all clean fclean re
