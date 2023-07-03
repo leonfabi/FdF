@@ -6,25 +6,23 @@
 #    By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 09:15:48 by fkrug             #+#    #+#              #
-#    Updated: 2023/06/29 14:54:33 by fkrug            ###   ########.fr        #
+#    Updated: 2023/07/03 14:35:49 by fkrug            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:= FdF
+NAME	:= fdf
 
 OPSYS := $(shell uname)
 ifeq ($(OPSYS), Linux)
 	CC := gcc
 	DB := gdb
-	CFLAGS ?= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 else ifeq ($(OPSYS), Darwin)
 	CC := cc
 	DB := lldb
-	CFLAGS ?= -Ofast -Wunreachable-code -Wextra -Wall -Werror
 	LIB_PATH := -L"$(shell brew --prefix glfw)/lib/"
-else
-	$(error $(OPSYS))
 endif
+CFLAGS := -Wextra -Wall -Werror
+# -Ofast -Wunreachable-code 
 LIBMLX	:= MLX42
 MLX := $(LIBMLX)/build/libmlx42.a
 LIBFT_DIR = Libft
