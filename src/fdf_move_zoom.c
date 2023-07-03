@@ -6,7 +6,7 @@
 /*   By: fkrug <fkrug@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 14:04:41 by fkrug             #+#    #+#             */
-/*   Updated: 2023/06/28 12:07:42 by fkrug            ###   ########.fr       */
+/*   Updated: 2023/07/03 14:29:58 by fkrug            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,7 @@ void	ft_zoom(t_mc *fdf)
 void	ft_zoom_hook(void *param)
 {
 	t_mc	*fdf;
-	int		y;
-	int		x;
 
-	y = 0;
-	x = 0;
 	fdf = param;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_ADD))
 	{
